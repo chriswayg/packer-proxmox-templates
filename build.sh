@@ -36,7 +36,8 @@ source $build_conf
 [[ -z "$iso_sha256_url" ]] && die_var_unset "iso_sha256_url"
 [[ -z "$iso_directory" ]] && die_var_unset "iso_directory"
 
-template_name="${BOX_NAME}.json"
+# based on name of current directory
+template_name="${PWD##*/}.json"
 
 [[ -f $template_name ]] || { echo "Template (${template_name}) not found."; exit 1; }
 
