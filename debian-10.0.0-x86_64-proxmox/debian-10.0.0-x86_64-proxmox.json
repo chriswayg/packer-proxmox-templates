@@ -1,0 +1,94 @@
+{
+    "description": "Build Debian 10.0 (buster) x86_64 Proxmox template",
+    "variables": {
+        "prox_vm_id": "{{user `prox_vmid`}}",
+        "prox_password": "{{user `prox_pass`}}",
+        "ssh_password": "{{user `ssh_pass`}}",
+        "prox_username": "root@pam",
+        "vm_hostname": "debian10",
+        "prox_vm_name": "deb10-packer",
+        "prox_vm_description": "Debian 10.0 x86_64 Proxmox template built with packer"
+    },
+    "sensitive-variables": ["prox_password", "prox_pass", "ssh_password","ssh_pass"],
+    "provisioners": [
+        {
+            "type": "shell",
+            "execute_command": "echo 'debian' | sudo -S sh '{{.Path}}'",
+            "scripts": [
+                "scripts/00base.sh",
+                "scripts/01networking.sh",
+                "scripts/02sshd.sh",
+                "scripts/04sudoers.sh",
+                "scripts/05customize.sh",
+                "scripts/06cloud.sh",
+                "scripts/90cleanup.sh",
+                "scripts/99minimize.sh"
+            ]
+        }
+    ],
+    "builders": [
+        {
+            "type": "proxmox",
+            "proxmox_url": "https://proxmox.lightinasia.site:8006/api2/json",
+            "insecure_skip_tls_verify": true,
+            "username": "{{user `prox_username`}}",
+            "password": "{{user `prox_password`}}",
+            "vm_id":  "{{user `prox_vm_id`}}",
+            "vm_name": "{{user `prox_vm_name`}}",
+            "template_description":"{{user `prox_vm_description`}}",
+            "memory": "1024",
+            "cores": "2",
+            "os": "l26",
+            "http_directory": "http",
+
+            "node": "proxmox",
+            "network_adapters": [
+              {
+                "model": "virtio",
+                "bridge": "vmbr1"
+              }
+            ],
+            "disks": [
+              {
+                "type": "scsi",
+                "disk_size": "8G",
+                "storage_pool": "local",
+                "storage_pool_type": "directory",
+                "format": "qcow2"
+              }
+            ],
+
+            "iso_file": "local:iso/debian-10.0.0-amd64-netinst.iso",
+
+            "ssh_username": "debian",
+            "ssh_password": "{{user `ssh_password`}}",
+            "ssh_port": 22,
+            "ssh_timeout": "15m",
+            "boot_wait": "10s",
+            "boot_command": [
+                "<esc><wait>",
+                "install<wait>",
+                " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+                " debian-installer=en_US<wait>",
+                " auto locale=en_US.UTF-8<wait>",
+                " kbd-chooser/method=us<wait>",
+                " keyboard-configuration/xkb-keymap=us<wait>",
+                " netcfg/get_hostname={{user `vm_hostname`}}<wait>",
+                " netcfg/get_domain=unassigned.domain<wait>",
+                " fb=false<wait>",
+                " debconf/frontend=noninteractive<wait>",
+                " console-setup/ask_detect=false<wait>",
+                " console-setup/charmap47=UTF-8",
+                " console-keymaps-at/keymap=us<wait>",
+                "<enter><wait>"
+            ]
+        }
+    ],
+    "post-processors": [
+      {
+        "type": "shell-local",
+        "inline_shebang": "/bin/bash -e",
+        "inline": ["qm set {{user `prox_vm_id`}} --scsihw virtio-scsi-pci --serial0 socket --vga serial0"]
+      }
+  ]
+}

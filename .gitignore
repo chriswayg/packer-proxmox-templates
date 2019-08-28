@@ -1,0 +1,13 @@
+*.img
+*.bz2
+*.qcow2
+*.log
+.DS_Store
+# ignore test directories
+test/
+# ignore packer_cache
+packer_cache
+output-qemu
+packer-qemu
+cloud-config.yml
+crash_logs/
