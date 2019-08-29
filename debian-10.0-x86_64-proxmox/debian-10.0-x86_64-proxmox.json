@@ -59,7 +59,7 @@
             ],
 
             "iso_file": "local:iso/debian-10.0.0-amd64-netinst.iso",
-
+            "unmount_iso": true,
             "ssh_username": "debian",
             "ssh_password": "{{user `ssh_password`}}",
             "ssh_port": 22,
