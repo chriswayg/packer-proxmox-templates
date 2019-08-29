@@ -1,12 +1,12 @@
 set -ex
 
 echo "Enable the serial console"
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="console=ttyS0 console=tty0"/g' /etc/default/grub
+sed -i '/^GRUB_CMDLINE_LINUX_DEFAULT=/c\GRUB_CMDLINE_LINUX_DEFAULT="console=ttyS0 console=tty0"' /etc/default/grub
 
 update-grub
 
 echo "Automatically Grow Partition after resize by Proxmox"
-DEBIAN_FRONTEND=noninteractive apt-get install cloud-guest-utils
+apt-get install cloud-guest-utils
 
 cat > /etc/systemd/system/autogrowpart.service << "EOF"
 [Unit]
