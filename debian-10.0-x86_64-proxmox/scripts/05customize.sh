@@ -14,6 +14,7 @@ EOF
 chmod +x /etc/update-motd.d/20-motd-welcome
 
 echo "Customize Bashrc with color and prompt"
+
 cat >> /root/.bashrc  << "EOF"
 export PS1="\[\033[1;31m\][\u@\h:\w]#\[\033[0m\] "
 EOF
