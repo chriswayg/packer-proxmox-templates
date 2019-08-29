@@ -1,7 +1,8 @@
 set -ex
+export DEBIAN_FRONTEND=noninteractive
 
 echo "removing xll packages (server not desktop...)"
-apt-get remove -y libx11.*
+apt-get -y remove libx11.*
 
 echo "move original /etc/apt/sources.list to back it up"
 mv /etc/apt/sources.list /etc/apt/sources.list.original
@@ -19,7 +20,7 @@ deb-src http://deb.debian.org/debian buster-updates main contrib non-free
 EOF
 
 echo "update and upgrade remaining packages"
-apt-get update
+apt-get -y update
 apt-get -y upgrade
 
 echo "purging packages which are no longer needed"
