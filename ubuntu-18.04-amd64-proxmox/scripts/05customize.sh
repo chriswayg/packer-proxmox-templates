@@ -1,7 +1,8 @@
 set -ex
 
-echo "Remove Ubuntu help text from motd"
+echo "Remove Ubuntu help-text and ads from motd"
 rm -v /etc/update-motd.d/10-help-text
+sed -i "/^ENABLED=/c\ENABLED=0" /etc/default/motd-news
 
 echo "Customize Bashrc with color and prompt"
 
