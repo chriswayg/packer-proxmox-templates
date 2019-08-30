@@ -67,21 +67,8 @@
             "unmount_iso": true,
             "boot_wait": "10s",
             "boot_command": [
-                "<esc><wait>",
-                "install<wait>",
-                " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
-                " debian-installer=en_US<wait>",
-                " auto locale=en_US.UTF-8<wait>",
-                " kbd-chooser/method=us<wait>",
-                " keyboard-configuration/xkb-keymap=us<wait>",
-                " netcfg/get_hostname={{user `vm_hostname`}}<wait>",
-                " netcfg/get_domain=unassigned.domain<wait>",
-                " fb=false<wait>",
-                " debconf/frontend=noninteractive<wait>",
-                " console-setup/ask_detect=false<wait>",
-                " console-setup/charmap47=UTF-8",
-                " console-keymaps-at/keymap=us<wait>",
-                "<enter><wait>"
+              "<esc><wait>",
+              "auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<enter>"
             ]
         }
     ],
