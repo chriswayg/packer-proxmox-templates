@@ -11,6 +11,6 @@ rm -rf /dev/.udev/ 2>/dev/null
 
 echo "cleaning bash history"
 unset HISTFILE
-rm ~/.bash_history /home/debian/.bash_history 2>/dev/null
+rm ~/.bash_history /home/deploy/.bash_history 2>/dev/null
 
 exit 0

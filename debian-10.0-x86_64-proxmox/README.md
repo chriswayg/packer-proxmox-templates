@@ -15,7 +15,9 @@ cd packer-proxmox-templates/debian-10.0.0-x86_64-proxmox
  ../build.sh proxmox
 ```
 
-The finished template (default 33000) can be seen in the Proxmox GUI
+- The finished template (default 33000) can be seen in the Proxmox GUI
+- The default username is 'deploy'
+
 
 ### Command Options
 
@@ -25,10 +27,12 @@ The finished template (default 33000) can be seen in the Proxmox GUI
 proxmox    - Build and create a Proxmox VM template
 debug      - Debug Mode: Build and create a Proxmox VM template
 
-new_VM_ID  - Optional VM ID for new VM template. Default [33000]
+VM_ID     - VM ID for new VM template (or use default from build.conf)
+
+ export proxmox_password=MyLoginPassword (or enter it when prompted)
 ```
 
-### Update ISO download link
+### Update ISO download links
 
 in `build.conf`
 

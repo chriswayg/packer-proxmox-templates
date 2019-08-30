@@ -2,9 +2,11 @@
     "description": "Build Debian 10.0 (buster) x86_64 Proxmox template",
     "variables": {
         "prox_vm_id": "{{user `prox_vmid`}}",
-        "prox_password": "{{user `prox_pass`}}",
-        "ssh_password": "{{user `ssh_pass`}}",
         "prox_username": "root@pam",
+        "prox_password": "{{user `prox_pass`}}",
+        "ssh_username": "deploy",
+        "ssh_password": "{{user `ssh_pass`}}",
+        "prox_iso_name": "{{user `iso_name`}}",
         "vm_hostname": "debian10",
         "prox_vm_name": "deb10-packer",
         "prox_vm_description": "Debian 10.0 x86_64 Proxmox template built with packer"
@@ -13,7 +15,7 @@
     "provisioners": [
         {
             "type": "shell",
-            "execute_command": "echo 'debian' | sudo -S sh '{{.Path}}'",
+            "execute_command": "echo 'deploy' | sudo -S sh '{{.Path}}'",
             "scripts": [
                 "scripts/00base.sh",
                 "scripts/01networking.sh",
@@ -57,13 +59,12 @@
                 "format": "qcow2"
               }
             ],
-
-            "iso_file": "local:iso/debian-10.0.0-amd64-netinst.iso",
-            "unmount_iso": true,
-            "ssh_username": "debian",
+            "ssh_username": "{{user `ssh_username`}}",
             "ssh_password": "{{user `ssh_password`}}",
             "ssh_port": 22,
             "ssh_timeout": "15m",
+            "iso_file": "local:iso/{{user `prox_iso_name`}}",
+            "unmount_iso": true,
             "boot_wait": "10s",
             "boot_command": [
                 "<esc><wait>",
