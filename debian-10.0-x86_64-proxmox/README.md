@@ -5,6 +5,14 @@
 - builds the image with preseed.cfg and scripts
 - stores it as a Proxmox Template
 
+### Configurations
+- qemu-guest-agent for Packer SSH and in Proxmox for shutdown and backups
+- haveged random number generator speeds up boot
+- passwordless sudo for default user: 'deploy'
+- SSH public key installed for default user
+- display IP and SSH fingerprint before login
+- Automatically grow partition after resize by Proxmox
+
 ### Use
 
 On the Proxmox Server with Packer installed:
