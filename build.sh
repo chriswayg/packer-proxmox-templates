@@ -45,7 +45,7 @@ template_name="${PWD##*/}.json"
 [[ -f $template_name ]] || { echo "Template (${template_name}) not found."; exit 1; }
 
 # If not set in env variable, prompt for it
-[[ -z "$proxmox_password" ]] && read -s -p "Existing PROXMOX Login Password: " proxmox_password && printf "\n"
+[[ -z "$proxmox_password" ]] && printf "\n" && read -s -p "Existing PROXMOX Login Password: " proxmox_password && printf "\n"
 printf "\n"
 
 while true; do
