@@ -6,7 +6,6 @@ sed -i '/^GRUB_CMDLINE_LINUX_DEFAULT=/c\GRUB_CMDLINE_LINUX_DEFAULT="console=ttyS
 update-grub
 
 echo "Automatically Grow Partition after resize by Proxmox"
-apt-get -y install cloud-guest-utils
 
 cat > /etc/systemd/system/autogrowpart.service << "EOF"
 [Unit]
