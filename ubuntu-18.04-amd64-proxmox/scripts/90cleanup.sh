@@ -4,17 +4,9 @@ set -x
 apt-get -y remove libx11.*
 apt-get -y autoremove
 apt-get -y clean
-#rm -f /var/cache/apt/*cache.bin
-#rm -f /var/lib/apt/lists/*
 
 echo "cleaning up dhcp leases"
 rm /var/lib/dhcp/* 2>/dev/null
-
-# echo "cleaning up udev rules"
-# rm /etc/udev/rules.d/70-persistent-net.rules 2>/dev/null
-# mkdir /etc/udev/rules.d/70-persistent-net.rules
-# rm /lib/udev/rules.d/75-persistent-net-generator.rules 2>/dev/null
-# rm -rf /dev/.udev/ 2>/dev/null
 
 echo "cleaning bash history"
 unset HISTFILE
