@@ -23,5 +23,8 @@ echo "update and upgrade remaining packages"
 apt-get -y update
 apt-get -y upgrade
 
+echo "install some basic utilities"
+apt-get -y install curl bzip2 psmisc net-tools
+
 echo "purging packages which are no longer needed"
 apt-get -y autoremove
