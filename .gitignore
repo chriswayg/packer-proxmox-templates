@@ -2,6 +2,7 @@
 *.bz2
 *.qcow2
 *.log
+*.log.*
 .DS_Store
 # ignore test directories
 test/
