@@ -10,5 +10,8 @@ test/
 packer_cache
 output-qemu
 packer-qemu
+
 cloud-config.yml
 crash_logs/
+roles/
+preseed.cfg
