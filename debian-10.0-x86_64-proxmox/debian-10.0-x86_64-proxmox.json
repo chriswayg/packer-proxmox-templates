@@ -4,7 +4,7 @@
         "prox_vm_id": "{{user `prox_vmid`}}",
         "prox_username": "root@pam",
         "prox_password": "{{user `prox_pass`}}",
-        "ssh_username": "deploy",
+        "ssh_username": "root",
         "ssh_password": "{{user `ssh_pass`}}",
         "prox_iso_name": "{{user `iso_name`}}",
         "vm_hostname": "debian10",
@@ -13,20 +13,12 @@
     },
     "sensitive-variables": ["prox_password", "prox_pass", "ssh_password","ssh_pass"],
     "provisioners": [
-        {
-            "type": "shell",
-            "execute_command": "echo 'deploy' | sudo -S sh '{{.Path}}'",
-            "scripts": [
-                "scripts/00base.sh",
-                "scripts/01networking.sh",
-                "scripts/02sshd.sh",
-                "scripts/04sudoers.sh",
-                "scripts/05customize.sh",
-                "scripts/06cloud.sh",
-                "scripts/90cleanup.sh",
-                "scripts/99minimize.sh"
-            ]
-        }
+      {
+        "type": "ansible",
+        "playbook_file": "./playbook/server-template.yml",
+        "extra_arguments": [ "-vv" ],
+        "ansible_env_vars": [ "ANSIBLE_CONFIG=./playbook/ansible.cfg", "ANSIBLE_FORCE_COLOR=True" ]
+      }
     ],
     "builders": [
         {
@@ -61,7 +53,6 @@
             ],
             "ssh_username": "{{user `ssh_username`}}",
             "ssh_password": "{{user `ssh_password`}}",
-            "ssh_port": 22,
             "ssh_timeout": "15m",
             "iso_file": "local:iso/{{user `prox_iso_name`}}",
             "unmount_iso": true,
