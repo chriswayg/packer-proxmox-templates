@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 build_conf="build.conf"
 
-function pause(){
-   read -p "$*"
-}
-
 function help {
     echo "$0 (proxmox|debug [VM_ID])"
     echo
@@ -22,8 +18,8 @@ function die_var_unset {
     exit 1
 }
 
-PACKER=$(type -P packer)
-[[ $? -eq 0 && -n "$PACKER" ]] || { echo "Unable to find 'packer' command"; exit 1; }
+[[ $(packer --version)  ]] || { echo "Please install 'Packer'"; exit 1; }
+[[ $(ansible --version)  ]] || { echo "Please install 'Ansible'"; exit 1; }
 
 target=${1:-}
 [[ -z "$target" ]] && help
@@ -31,6 +27,7 @@ target=${1:-}
 [[ -f $build_conf ]] || { echo "User variables file '$build_conf' not found."; exit 1; }
 source $build_conf
 
+[[ -z "$default_user" ]] && die_var_unset "default_user"
 [[ -z "$vm_id" ]] && die_var_unset "vm_id"
 [[ -z "$iso_url" ]] && die_var_unset "iso_url"
 [[ -z "$iso_sha256_url" ]] && die_var_unset "iso_sha256_url"
@@ -49,29 +46,36 @@ template_name="${PWD##*/}.json"
 printf "\n"
 
 while true; do
-    read -s -p "Record New User Password: " ssh_password
+    read -s -p "Enter  new SSH Password: " ssh_password
     printf "\n"
-    read -s -p "Repeat New User Password: " ssh_password2
+    read -s -p "Repeat new SSH Password: " ssh_password2
     printf "\n"
     [ "$ssh_password" = "$ssh_password2" ] && break
     printf "Passwords do not match. Please try again!\n\n"
 done
 
 [[ -z "$proxmox_password" ]] && echo "The Proxmox Password is required." && exit 1
-[[ -z "$ssh_password" ]] && echo "The User Password is required." && exit 1
+[[ -z "$ssh_password" ]] && echo "The SSH Password is required." && exit 1
 
-printf "\n* Downloading and checking ISO ***\n\n"
+printf "\n*** Downloading and checking ISO ***\n\n"
 iso_name=$(basename $iso_url)
 wget -P $iso_directory -N $iso_url                  # only re-download when newer on the server
 wget --no-verbose $iso_sha256_url -O $iso_directory/SHA256SUMS  # always download and overwrite
 (cd $iso_directory && cat $iso_directory/SHA256SUMS | grep $iso_name | sha256sum --check)
 if [ $? -eq 1 ]; then echo "ISO checksum does not match"; exit 1; fi
 
-# temporarily append the password hash to preseed.cfg
-password_hash=$(mkpasswd -R 1000000 -m sha-512 $ssh_password)
-echo "d-i passwd/user-password-crypted password $password_hash" >> http/preseed.cfg
-echo "d-i passwd/root-password-crypted password $password_hash" >> http/preseed.cfg
- 
+printf "\n* Downloading Ansible role *\n\n"
+ansible-galaxy install -p playbook/roles -r playbook/requirements.yml
+
+# Insert the password hashes for root and default user to preseed.cfg using a template
+# the default_user name will be used by Packer and Ansible
+export password_hash1=$(mkpasswd -R 1000000 -m sha-512 $ssh_password)
+export password_hash2=$(mkpasswd -R 1000000 -m sha-512 $ssh_password)
+export default_user=$default_user
+# only substitute the named variables (otherwise envsubst messes up '$' in the text)
+j2 preseed.cfg.j2 > http/preseed.cfg
+j2 playbook/server-template.yml.j2 data.yaml > playbook/server-template.yml
+
 case $target in
     proxmox)
         printf "\n*** Build and create a Proxmox template. ***\n\n"
@@ -87,5 +91,5 @@ case $target in
         ;;
 esac
 
-# remove the hashed password, so it does not get stored in git
-sed -i '/^d-i passwd\/user-password-crypted/d' http/preseed.cfg
+# remove preseed.cfg with hashed passwords, so it does not get stored in git
+rm -v http/preseed.cfg
