@@ -4,6 +4,7 @@
         "prox_vm_id": "{{user `prox_vmid`}}",
         "prox_username": "root@pam",
         "prox_password": "{{user `prox_pass`}}",
+        "prox_url": "https://proxmox.lightinasia.site:8006/api2/json",
         "ssh_username": "root",
         "ssh_password": "{{user `ssh_pass`}}",
         "prox_iso_name": "{{user `iso_name`}}",
@@ -23,7 +24,7 @@
     "builders": [
         {
             "type": "proxmox",
-            "proxmox_url": "https://proxmox.lightinasia.site:8006/api2/json",
+            "proxmox_url":  "{{user `prox_url`}}",
             "insecure_skip_tls_verify": true,
             "username": "{{user `prox_username`}}",
             "password": "{{user `prox_password`}}",
