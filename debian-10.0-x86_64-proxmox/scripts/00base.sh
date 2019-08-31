@@ -1,7 +1,7 @@
 set -ex
 export DEBIAN_FRONTEND=noninteractive
 
-echo "removing xll packages (server not desktop...)"
+echo "removing X11 packages (server not desktop...)"
 apt-get -y remove libx11.*
 
 echo "move original /etc/apt/sources.list to back it up"
