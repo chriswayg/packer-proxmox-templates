@@ -4,7 +4,7 @@ echo "set hostname plus domainname and add these to /etc/hosts"
 namehost=deb10-kvm
 namedomain=unassigned.domain
 hostnamectl set-hostname ${namehost}
-domainname ${namedomain}
+#domainname ${namedomain}
 cp -v /etc/hosts /etc/hosts.original
 sed -i "/^127.0.1.1/c\127.0.1.1       ${namehost}.${namedomain}  ${namehost}" /etc/hosts
 
