@@ -1,0 +1,9 @@
+[Unit]
+Description=Automatically Grow Partition after resize by Proxmox.
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/local/bin/auto_grow_partition.sh
+
+[Install]
+WantedBy=multi-user.target

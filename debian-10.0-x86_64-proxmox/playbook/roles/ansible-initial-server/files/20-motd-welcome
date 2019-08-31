@@ -1,0 +1,6 @@
+#!/bin/bash
+# {{ ansible_managed }}
+source /etc/os-release
+echo ""
+echo " Welcome to $PRETTY_NAME Server"
+echo ""

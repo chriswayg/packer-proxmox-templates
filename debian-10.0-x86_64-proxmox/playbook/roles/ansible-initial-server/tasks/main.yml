@@ -1,0 +1,206 @@
+---
+# tasks file for ansible-initial-server
+## TODO:
+## - check, what has to be changed for Ubuntu 18.04 (probably using su is not needed)
+## -
+
+# For this block we use 'su' on first-run, because root cannot ssh into the server.
+- name: KICKSTART
+  block:
+  - name: Ensure that python-apt and sudo is installed.
+    apt:
+      name: "{{ packages }}"
+      state: present
+    vars:
+      packages:
+      - python-apt
+      - sudo
+
+  - name: Add the default user with passwordless sudo to sodoers.d.
+    copy:
+      src: user-deploy
+      dest: /etc/sudoers.d/user-deploy
+      mode: 0440
+
+  # - name: Ensure, that the default user can do passwordless sudo.
+  #   lineinfile:
+  #     path: /etc/sudoers
+  #     state: present
+  #     regexp: '^%sudo\s'
+  #     line: '%sudo  ALL=(ALL:ALL) NOPASSWD: ALL'
+
+  # - name: Modify the default user, appending the group 'sudo' to the user's groups
+  #   user:
+  #     name: "{{ iserver_user }}"
+  #     groups: sudo
+  #     append: yes
+  become: true
+  become_method: "{{ iserver_become }}"
+
+# Now that the default user can do passwordless sudo, run the rest with sudo.
+- name: MAIN
+  block:
+  - name: reset ssh connection to allow user changes to affect 'current login user'
+    meta: reset_connection
+
+  - name: Ensure, that the default user has an ssh authorized key.
+    authorized_key:
+      user: "{{ iserver_user }}"
+      state: present
+      key: "{{ iserver_sshkey }}"
+
+  # see also https://github.com/holms/ansible-fqdn
+  - name: Set hostname.
+    hostname:
+      name: "{{ iserver_hostname }}"
+    register: new_hostname_set
+
+  - name: Copy original hosts file to back it up (once).
+    command: cp /etc/hosts /etc/hosts.original
+    args:
+      creates: /etc/hosts.original
+
+  - name: Change hostname in etc/hosts, if hostname has changed.
+    lineinfile:
+      path: /etc/hosts
+      state: present
+      regexp: "^127.0.1.1"
+      line: "127.0.1.1       {{ iserver_fqdn }}  {{ iserver_hostname }}"
+    when: (new_hostname_set is changed) and (not iserver_custom_etchosts)
+
+  - name: Create a custom hosts file with FQDN and hostname from a template.
+    template:
+      src: hosts.j2
+      dest: /etc/hosts
+    register: restart_systemd_login
+    when: iserver_custom_etchosts
+
+  - name: Restart systemd-logind to activate hostname.
+    service:
+      name: systemd-logind
+      state: restarted
+    when: new_hostname_set is changed
+
+  - name: Set timezone.
+    timezone:
+      name: "{{ iserver_timezone }}"
+
+  - name: Move original /etc/apt/sources.list to back it up (once).
+    command: mv /etc/apt/sources.list /etc/apt/sources.list.original
+    args:
+      creates: /etc/apt/sources.list.original
+
+  # this requires python-apt
+  - name: Add a set of specified repositories into sources list.
+    apt_repository:
+      repo: "{{ item }}"
+      state: present
+    loop: "{{ iserver_repos }}"
+
+  - name: Ensure, that all packages are updated and upgraded.
+    apt:
+      upgrade: "yes"
+      update_cache: yes
+      cache_valid_time: 86400 #One day
+
+  - name: Ensure that initial packages are installed.
+    apt:
+      name: "{{ iserver_packages }}"
+      state: present
+
+  - name: Disallow root SSH access, only allow SSH key login.
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      state: present
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+    loop:
+      - { regexp: '^PermitRootLogin', line: 'PermitRootLogin no' }
+      - { regexp: '^PasswordAuthentication', line: 'PasswordAuthentication no' }
+    register: restart_ssh
+
+  - name: Restart SSH.
+    service:
+      name: ssh
+      state: restarted
+    when: restart_ssh is changed
+
+  - name: Enable the serial console by modifying grub.
+    lineinfile:
+      path: /etc/default/grub
+      state: present
+      regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
+      line: 'GRUB_CMDLINE_LINUX_DEFAULT="console=ttyS0 console=tty0"'
+    register: update_grub
+
+  - name: Update grub.
+    shell: update-grub
+    when: update_grub is changed
+
+  - name: Copy original /etc/issue (once) which is displayed before login.
+    command: cp /etc/issue /etc/issue.original
+    args:
+      creates: /etc/issue.original
+
+  # Note: run-parts doesn't run scripts with a .sh extension
+  - name: Copy script which will run when the network comes up to display IP before login.
+    template:
+      src: show-ip-address.j2
+      dest: /etc/network/if-up.d/show-ip-address
+      mode: a+x
+
+  - name: Move the original /etc/motd to back it up (once).
+    command: mv /etc/motd /etc/motd.original
+    args:
+      creates: /etc/motd.original
+
+  - name: Copy the file which will show the motd after login.
+    copy:
+      src: 20-motd-welcome
+      dest: /etc/update-motd.d/20-motd-welcome
+      mode: a+x
+
+  # or do it linbe by line (slower)
+  - name: Add a block of bashrc config to all users.
+    blockinfile:
+      path: "{{ item }}/.bashrc"
+      block: |
+        {{ iserver_bashrc }}
+      marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    loop: "{{ iserver_users_dirs }}"
+
+  - name: Customize root bashrc - prompt is red.
+    lineinfile:
+      path: /root/.bashrc
+      line: 'export PS1="\[\033[1;31m\][\u@\h:\w]#\[\033[0m\] "'
+
+  - name: Customize default user bashrc - prompt is blue.
+    lineinfile:
+      path: /home/{{ iserver_user }}/.bashrc
+      line: 'export PS1="\[\033[1;34m\][\u@\h:\w]$\[\033[0m\] "'
+
+  - name: Copy systemd unitfile to automatically Grow Partition after resize by Proxmox.
+    copy:
+      src: autogrowpart.service
+      dest: /etc/systemd/system/autogrowpart.service
+      mode: 0644
+    register: enable_autogrowpart
+
+  - name: Enable the autogrowpart service.
+    service:
+      name: autogrowpart
+      enabled: yes
+    when: enable_autogrowpart is changed
+
+  - name: Copy script to automatically Grow Partition after resize by Proxmox.
+    copy:
+      src: auto_grow_partition.sh
+      dest: /usr/local/bin/auto_grow_partition.sh
+      mode: a+x
+
+  # or use '*'
+  - name: Prevent password authentication for root.
+    user:
+      name: root
+      password: '!'
+  become: true

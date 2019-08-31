@@ -1,0 +1,10 @@
+---
+
+- name: Initial configuration of a server.
+  hosts: all
+  user: deploy
+  become: yes
+  vars_files:
+    - production/server-template-vars.yml
+  roles:
+    - role: ansible-initial-server

@@ -1,0 +1,56 @@
+---
+# defaults file for ansible-initial-server
+
+iserver_become: sudo
+
+iserver_hostname: deb10-kvm
+iserver_domain: unassigned.domain
+iserver_fqdn: "{{ iserver_hostname }}.{{ iserver_domain }}"
+
+# for a template we do not want the current DHCP IP set in hosts
+# on a server with a fixed IP we do want that
+iserver_custom_etchosts: false
+iserver_ip: "{{ ansible_default_ipv4.address }}"
+
+iserver_timezone: UTC
+
+iserver_repos:
+  - deb http://repo.myloc.de/debian buster main non-free contrib
+  - deb-src http://repo.myloc.de/debian buster main non-free contrib
+  - deb http://security.debian.org/debian-security buster/updates main contrib non-free
+  - deb-src http://security.debian.org/debian-security buster/updates main contrib non-free
+  - deb http://deb.debian.org/debian buster-updates main contrib non-free
+  - deb-src http://deb.debian.org/debian buster-updates main contrib non-free
+
+# packages we want on every server
+iserver_packages:
+  - qemu-guest-agent
+  - haveged
+  - curl
+  - psmisc
+  - net-tools
+  - cloud-guest-utils
+  # - verse
+  # - lsof
+  # - lshw
+  # - ncdu
+  # - netstat-nat
+  # - dnsutils
+  # - pv
+  # - screen
+
+iserver_interface: ens18
+
+iserver_user: deploy
+iserver_sshkey: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+iserver_users_dirs:
+  - /root
+  - /home/deploy
+
+iserver_bashrc: |
+  export LS_OPTIONS='--color=auto'
+  eval "`dircolors`"
+  alias ls='ls $LS_OPTIONS'
+  alias ll='ls $LS_OPTIONS -l'
+  alias l='ls $LS_OPTIONS -lA'
