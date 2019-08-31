@@ -8,7 +8,7 @@
 ### Configurations
 - qemu-guest-agent for Packer SSH and in Proxmox for shutdown and backups
 - haveged random number generator speeds up boot
-- passwordless sudo for default user: 'deploy'
+- passwordless sudo for default user: 'deploy' (name can be changed in build.conf)
 - SSH public key installed for default user
 - display IP and SSH fingerprint before login
 - Automatically grow partition after resize by Proxmox
@@ -24,8 +24,7 @@ cd packer-proxmox-templates/debian-10.0.0-x86_64-proxmox
 ```
 
 - The finished template (default 33000) can be seen in the Proxmox GUI
-- The default username is 'deploy'
-
+- Login using the default username as set in build.conf
 
 ### Command Options
 
