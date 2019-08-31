@@ -70,7 +70,8 @@ if [ $? -eq 1 ]; then echo "ISO checksum does not match"; exit 1; fi
 # temporarily append the password hash to preseed.cfg
 password_hash=$(mkpasswd -R 1000000 -m sha-512 $ssh_password)
 echo "d-i passwd/user-password-crypted password $password_hash" >> http/preseed.cfg
-
+echo "d-i passwd/root-password-crypted password $password_hash" >> http/preseed.cfg
+ 
 case $target in
     proxmox)
         printf "\n*** Build and create a Proxmox template. ***\n\n"
