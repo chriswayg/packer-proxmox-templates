@@ -13,3 +13,14 @@ iserver_repos:
   - deb-src http://repo.myloc.de/ubuntu/ bionic-backports main restricted universe multiverse
   - deb http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse
   - deb-src http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse
+
+iserver_packages:
+  - qemu-guest-agent
+  - haveged
+  - curl
+  - psmisc
+  - net-tools
+  - cloud-guest-utils
+
+iserver_user_profile: |
+  ##
