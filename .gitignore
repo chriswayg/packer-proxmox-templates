@@ -4,14 +4,19 @@
 *.log
 *.log.*
 .DS_Store
-# ignore test directories
+
+# ignore directories
 test/
+roles/
+crash_logs/
+
 # ignore packer_cache
 packer_cache
 output-qemu
 packer-qemu
 
-cloud-config.yml
-crash_logs/
-roles/
+# created from template
 preseed.cfg
+
+# others
+cloud-config.yml
