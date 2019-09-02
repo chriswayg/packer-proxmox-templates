@@ -40,7 +40,7 @@ pip3 install ansible==2.7.10
 
 `git clone https://github.com/chriswayg/packer-proxmox-templates.git`
 
-### Use
+### Usage
 
 On the Proxmox Server with Packer installed:
 
@@ -50,7 +50,7 @@ On the Proxmox Server with Packer installed:
 ```
 cd packer-proxmox-templates/debian-10.0.0-x86_64-proxmox
 
- ../build.sh proxmox
+../build.sh proxmox
 ```
 
 - The finished template can be checked in the Proxmox GUI
