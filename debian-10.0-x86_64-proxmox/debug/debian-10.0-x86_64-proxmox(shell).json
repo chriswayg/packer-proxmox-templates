@@ -1,0 +1,16 @@
+    "provisioners": [
+        {
+            "type": "shell",
+            "execute_command": "echo '{{user `vm_default_user`}}' | sudo -S sh '{{.Path}}'",
+            "scripts": [
+                "scripts/00base.sh",
+                "scripts/01networking.sh",
+                "scripts/02sshd.sh",
+                "scripts/04sudoers.sh",
+                "scripts/05customize.sh",
+                "scripts/06cloud.sh",
+                "scripts/90cleanup.sh",
+                "scripts/99minimize.sh"
+            ]
+        }
+    ],

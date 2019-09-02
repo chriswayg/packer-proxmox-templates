@@ -1,0 +1,9 @@
+    "builders": [
+      {
+        "type":         "null",
+        "ssh_host":     "10.10.10.77",
+        "ssh_username": "root",
+        "ssh_password": "*****",
+        "ssh_timeout": "1m"
+      }
+    ]
