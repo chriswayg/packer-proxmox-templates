@@ -40,7 +40,7 @@ pip3 install ansible==2.7.10
 
 `git clone https://github.com/chriswayg/packer-proxmox-templates.git`
 
-### Use
+### Usage
 
 On the Proxmox Server with Packer installed:
 
