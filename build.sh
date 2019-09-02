@@ -14,8 +14,9 @@ function help {
     echo "VM_ID     - VM ID for new VM template (overrides default from build.conf)"
     echo
     echo "Enter Passwwords when prompted or provide them via ENV variables:"
-    echo "  export proxmox_password=MyLoginPassword"
-    echo "  export ssh_password=MyPasswordInVM"
+    echo "(use a space in front of ' export' to keep passwords out of bash_history)"
+    echo " export proxmox_password=MyLoginPassword"
+    echo " export ssh_password=MyPasswordInVM"
     exit 0
 }
 
@@ -40,7 +41,7 @@ target=${1:-}
 
 ## VM ID for new VM template (overrides default from build.conf)
 vm_id=${2:-$default_vm_id}
-printf "\n* Using VM ID: $vm_id with default user: '$vm_default_user'\n"
+printf "\n=> Using VM ID: $vm_id with default user: '$vm_default_user'\n"
 
 ## template_name is based on name of current directory, check it exists
 template_name="${PWD##*/}.json"
@@ -71,14 +72,14 @@ fi
 [[ -z "$ssh_password" ]] && echo "The SSH Password is required." && exit 1
 
 ## download ISO and Ansible role
-printf "\n*** Downloading and checking ISO ***\n\n"
+printf "\n==> Downloading and checking ISO\n\n"
 iso_filename=$(basename $iso_url)
 wget -P $iso_directory -N $iso_url                  # only re-download when newer on the server
 wget --no-verbose $iso_sha256_url -O $iso_directory/SHA256SUMS  # always download and overwrite
 (cd $iso_directory && cat $iso_directory/SHA256SUMS | grep $iso_filename | sha256sum --check)
 if [ $? -eq 1 ]; then echo "ISO checksum does not match!"; exit 1; fi
 
-printf "\n* Downloading Ansible role *\n\n"
+printf "\n=> Downloading Ansible role\n\n"
 # will always overwrite role to get latest version from Github
 ansible-galaxy install --force -p playbook/roles -r playbook/requirements.yml
 [[ -f playbook/roles/ansible-initial-server/tasks/main.yml ]] || { echo "Ansible role not found."; exit 1; }
@@ -98,12 +99,12 @@ j2 preseed.cfg.j2 > http/preseed.cfg
 ## Call Packer build with the provided data
 case $target in
     proxmox)
-        printf "\n*** Build and create a Proxmox template. ***\n\n"
-        # single quotes such as -var 'proxmox_password=$proxmox_password' do not work here
+        printf "\n==> Build and create a Proxmox template.\n\n"
+        # single quotes such as -var 'vm_id=$vm_id' do not work here
         packer build -var iso_filename=$iso_filename -var vm_id=$vm_id -var proxmox_password=$proxmox_password -var ssh_password=$ssh_password $template_name
         ;;
     debug)
-        printf "\n*** DEBUG: Build and create a Proxmox template. ***\n\n"
+        printf "\n==> DEBUG: Build and create a Proxmox template.\n\n"
         PACKER_LOG=1 packer build -debug -on-error=ask -var iso_filename=$iso_filename -var vm_id=$vm_id -var proxmox_password=$proxmox_password -var ssh_password=$ssh_password $template_name
         ;;
     *)
@@ -112,4 +113,4 @@ case $target in
 esac
 
 ## remove preseed.cfg which has the hashed passwords
-rm -v http/preseed.cfg
+printf "=> "; rm -v http/preseed.cfg

@@ -2,7 +2,7 @@
 
 - downloads the ISO from Debian and places it in Proxmox
 - creates a Proxmox VM
-- builds the image with preseed.cfg and scripts
+- builds the image using preseed.cfg and Ansible
 - stores it as a Proxmox Template
 
 ### Configurations
@@ -11,7 +11,7 @@
 - passwordless sudo for default user: 'deploy' (name can be changed in build.conf)
 - SSH public key installed for default user
 - display IP and SSH fingerprint before login
-- Automatically grow partition after resize by Proxmox
+- automatically grow partition after resize by Proxmox
 
 ### Use
 
@@ -46,9 +46,16 @@ in `build.conf`
 #### Build environment
 
 ```sh
-packer version && pveversion && lsb_release -d && cat /etc/debian_version
-		Packer v1.4.3
-		pve-manager/6.0-5/f8a710d7 (running kernel: 5.0.18-1-pve)
-		Description:	Debian GNU/Linux 10 (buster)
-		10.0
+printf  "$(lsb_release -d) $(cat /etc/debian_version)\n" && \
+  printf  "Proxmox $(pveversion)\n" &&
+  packer version && \
+  ansible --version |  sed -n '1p' && \
+  j2 --version
+
+      Description:	Debian GNU/Linux 10 (buster) 10.0
+      Proxmox pve-manager/6.0-5/f8a710d7 (running kernel: 5.0.18-1-pve)
+      Packer v1.4.3
+      ansible 2.7.10
+      j2cli 0.3.10, Jinja2 2.10.1
+
 ```
