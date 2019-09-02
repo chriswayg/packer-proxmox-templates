@@ -1,5 +1,13 @@
 set -ex
 
+echo "set hostname plus domainname and add these to /etc/hosts"
+namehost=deb10-kvm
+namedomain=unassigned.domain
+hostnamectl set-hostname ${namehost}
+#domainname ${namedomain}
+cp -v /etc/hosts /etc/hosts.original
+sed -i "/^127.0.1.1/c\127.0.1.1       ${namehost}.${namedomain}  ${namehost}" /etc/hosts
+
 echo "Create a script which will run when the network comes up to display IP before login"
 
 cp /etc/issue /etc/issue.original

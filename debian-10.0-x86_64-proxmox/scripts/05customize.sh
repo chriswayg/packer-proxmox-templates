@@ -13,6 +13,7 @@ EOF
 
 chmod +x /etc/update-motd.d/20-motd-welcome
 
+
 echo "Customize Bashrc with color and prompt"
 
 cat >> /root/.bashrc  << "EOF"

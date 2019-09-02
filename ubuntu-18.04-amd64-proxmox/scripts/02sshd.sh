@@ -13,4 +13,5 @@ chmod -v 600 /home/deploy/.ssh/authorized_keys
 
 # UseDNS value is No which avoids login delays when the remote client's DNS cannot be resolved
 sed -i "/^#UseDNS/c\UseDNS no" /etc/ssh/sshd_config
+sed -i "/^#PermitRootLogin/c\PermitRootLogin no" /etc/ssh/sshd_config
 sed -i "/^#PasswordAuthentication/c\PasswordAuthentication no" /etc/ssh/sshd_config
