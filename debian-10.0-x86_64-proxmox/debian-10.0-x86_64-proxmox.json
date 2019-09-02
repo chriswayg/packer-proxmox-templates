@@ -1,37 +1,38 @@
 {
     "description": "Build Debian 10.0 (buster) x86_64 Proxmox template",
     "variables": {
-        "prox_vm_id": "{{user `prox_vmid`}}",
-        "prox_username": "root@pam",
-        "prox_password": "{{user `prox_pass`}}",
-        "prox_url": "https://proxmox.lightinasia.site:8006/api2/json",
+        "proxmox_url": "{{env `proxmox_url`}}",
+        "proxmox_username": "root@pam",
+        "proxmox_password": "{{user `proxmox_password`}}",
+        "iso_filename": "{{user `iso_filename`}}",
+        "vm_id": "{{user `vm_id`}}",
+        "vm_name": "deb10-tmpl",
+        "template_description": "Debian 10.0 x86_64 Proxmox template built with packer",
+        "vm_default_user": "{{env `vm_default_user`}}",
+        "vm_memory": "{{env `vm_memory`}}",
         "ssh_username": "root",
-        "ssh_password": "{{user `ssh_pass`}}",
-        "prox_iso_name": "{{user `iso_name`}}",
-        "vm_hostname": "debian10",
-        "prox_vm_name": "deb10-packer",
-        "prox_vm_description": "Debian 10.0 x86_64 Proxmox template built with packer"
+        "ssh_password": "{{user `ssh_password`}}"
     },
-    "sensitive-variables": ["prox_password", "prox_pass", "ssh_password","ssh_pass"],
+    "sensitive-variables": ["proxmox_password", "ssh_password" ],
     "provisioners": [
       {
         "type": "ansible",
         "playbook_file": "./playbook/server-template.yml",
-        "extra_arguments": [ "-vv" ],
+        "extra_arguments": [ "-vv", "--extra-vars", "vm_default_user={{user `vm_default_user`}}" ],
         "ansible_env_vars": [ "ANSIBLE_CONFIG=./playbook/ansible.cfg", "ANSIBLE_FORCE_COLOR=True" ]
       }
     ],
     "builders": [
         {
             "type": "proxmox",
-            "proxmox_url":  "{{user `prox_url`}}",
+            "proxmox_url":  "{{user `proxmox_url`}}",
             "insecure_skip_tls_verify": true,
-            "username": "{{user `prox_username`}}",
-            "password": "{{user `prox_password`}}",
-            "vm_id":  "{{user `prox_vm_id`}}",
-            "vm_name": "{{user `prox_vm_name`}}",
-            "template_description":"{{user `prox_vm_description`}}",
-            "memory": "1024",
+            "username": "{{user `proxmox_username`}}",
+            "password": "{{user `proxmox_password`}}",
+            "vm_id":  "{{user `vm_id`}}",
+            "vm_name": "{{user `vm_name`}}",
+            "template_description":"{{user `template_description`}}",
+            "memory": "{{user `vm_memory`}}",
             "cores": "2",
             "os": "l26",
             "http_directory": "http",
@@ -55,7 +56,7 @@
             "ssh_username": "{{user `ssh_username`}}",
             "ssh_password": "{{user `ssh_password`}}",
             "ssh_timeout": "15m",
-            "iso_file": "local:iso/{{user `prox_iso_name`}}",
+            "iso_file": "local:iso/{{user `iso_filename`}}",
             "unmount_iso": true,
             "boot_wait": "10s",
             "boot_command": [
@@ -68,7 +69,7 @@
       {
         "type": "shell-local",
         "inline_shebang": "/bin/bash -e",
-        "inline": ["qm set {{user `prox_vm_id`}} --scsihw virtio-scsi-pci --serial0 socket --vga serial0"]
+        "inline": ["qm set {{user `vm_id`}} --scsihw virtio-scsi-pci --serial0 socket --vga serial0"]
       }
   ]
 }
