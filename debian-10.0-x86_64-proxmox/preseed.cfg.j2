@@ -18,8 +18,7 @@ d-i mirror/http/proxy string
 ### Clock and time zone setup
 # Controls whether or not the hardware clock is set to UTC.
 d-i clock-setup/utc boolean true
-# You may set this to any valid setting for $TZ; see the contents of
-# /usr/share/zoneinfo/ for valid values.
+# see ls -R  /usr/share/zoneinfo/ for valid values.
 d-i time/zone string UTC
 
 ### Partitioning
@@ -43,18 +42,22 @@ d-i partman/confirm_nooverwrite boolean true
 
 ### Base system installation
 # The kernel image package to be installed
-d-i base-installer/kernel/override-image string linux-server
+# d-i base-installer/kernel/override-image string linux-server
 
 ### Account setup
-# Default user '{{ env("default_user") }}'
-d-i passwd/user-fullname string {{ env("default_user") }}
-d-i passwd/username string {{ env("default_user") }}
+# Default user '{{ env("vm_default_user") }}'
+d-i passwd/root-login boolean true
+d-i passwd/user-fullname string {{ env("vm_default_user") }}
+d-i passwd/username string {{ env("vm_default_user") }}
 d-i user-setup/encrypt-home boolean false
+# Encrypted root and user passwords
+d-i passwd/root-password-crypted password {{ env("password_hash1") }}
+d-i passwd/user-password-crypted password {{ env("password_hash2") }}
 
 ### Apt setup
 # Install non-free and contrib software.
-d-i apt-setup/non-free boolean true
-d-i apt-setup/contrib boolean true
+# d-i apt-setup/non-free boolean true
+# d-i apt-setup/contrib boolean true
 # prevent the installer from asking about scanning another CD
 apt-cdrom-setup apt-setup/cdrom/set-first boolean false
 
@@ -77,13 +80,9 @@ d-i grub-installer/bootdev string /dev/sda
 d-i preseed/late_command string sed -i '/^deb cdrom:/s/^/#/' /target/etc/apt/sources.list
 # Enable passwordless sudo for default user and permit root login for Packer Ansible provisioner to work
 d-i preseed/late_command string \
-    echo '{{ env("default_user") }}  ALL=(ALL:ALL) NOPASSWD: ALL' >> /target/etc/sudoers.d/default-user && chmod 440 /target/etc/sudoers.d/default-user && \
+    echo '{{ env("vm_default_user") }}  ALL=(ALL:ALL) NOPASSWD: ALL' >> /target/etc/sudoers.d/default-user && chmod 440 /target/etc/sudoers.d/default-user && \
     sed -i "/^#PermitRootLogin/c\PermitRootLogin yes" /target/etc/ssh/sshd_config
 
 ### Finishing up the installation
 # Avoid that last message about the install being complete.
 d-i finish-install/reboot_in_progress note
-
-# Encrypted root and user passwords
-d-i passwd/root-password-crypted password {{ env("password_hash1") }}
-d-i passwd/user-password-crypted password {{ env("password_hash2") }}
