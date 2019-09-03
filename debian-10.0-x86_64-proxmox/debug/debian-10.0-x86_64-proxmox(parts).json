@@ -1,0 +1,52 @@
+# when using the shell provisioner
+
+    "provisioners": [
+        {
+            "type": "shell",
+            "execute_command": "echo '{{user `vm_default_user`}}' | sudo -S sh '{{.Path}}'",
+            "scripts": [
+                "scripts/00base.sh",
+                "scripts/01networking.sh",
+                "scripts/02sshd.sh",
+                "scripts/04sudoers.sh",
+                "scripts/05customize.sh",
+                "scripts/06cloud.sh",
+                "scripts/90cleanup.sh",
+                "scripts/99minimize.sh"
+            ]
+        }
+    ],
+
+
+# when using the null builder
+
+    "builders": [
+      {
+        "type":         "null",
+        "ssh_host":     "10.10.10.77",
+        "ssh_username": "root",
+        "ssh_password": "*****",
+        "ssh_timeout": "1m"
+      }
+    ]
+
+
+# the original boot boot_command (auto is much faster)
+
+    "boot_command": [
+    "<esc><wait>",
+    "install<wait>",
+    " url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+    " debian-installer=en_US<wait>",
+    " auto locale=en_US.UTF-8<wait>",
+    " kbd-chooser/method=us<wait>",
+    " keyboard-configuration/xkb-keymap=us<wait>",
+    " netcfg/get_hostname={{user `vm_hostname`}}<wait>",
+    " netcfg/get_domain=unassigned.domain<wait>",
+    " fb=false<wait>",
+    " debconf/frontend=noninteractive<wait>",
+    " console-setup/ask_detect=false<wait>",
+    " console-setup/charmap47=UTF-8",
+    " console-keymaps-at/keymap=us<wait>",
+    "<enter><wait>"
+    ]
