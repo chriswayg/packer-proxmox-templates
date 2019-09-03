@@ -6,6 +6,7 @@ set -o allexport
 build_conf="build.conf"
 
 function help {
+    printf "\n"
     echo "$0 (proxmox|debug [VM_ID])"
     echo
     echo "proxmox   - Build and create a Proxmox VM template"
@@ -17,6 +18,7 @@ function help {
     echo "(use a space in front of ' export' to keep passwords out of bash_history)"
     echo " export proxmox_password=MyLoginPassword"
     echo " export ssh_password=MyPasswordInVM"
+    printf "\n"
     exit 0
 }
 
@@ -37,7 +39,7 @@ source $build_conf
 
 ## check that build-mode (proxmox|debug) is passed to script
 target=${1:-}
-[[ -z "$target" ]] && help
+[[ "${1}" == "proxmox" ]] || [[ "${1}" == "debug" ]] || help
 
 ## VM ID for new VM template (overrides default from build.conf)
 vm_id=${2:-$default_vm_id}
