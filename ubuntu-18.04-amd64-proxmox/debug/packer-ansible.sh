@@ -1,4 +1,4 @@
-# command used by Packer to run ansible palybook
+# command used by Packer to run ansible playbook
 
 ansible-playbook /root/packer-projects/ubuntu-18.04-amd64-proxmox/playbook/server-template.yml
     -vv
