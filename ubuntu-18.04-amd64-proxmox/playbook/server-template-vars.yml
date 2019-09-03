@@ -15,12 +15,12 @@ iserver_repos:
   - deb-src http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse
 
 iserver_packages:
-  - qemu-guest-agent
-  - haveged
+  - qemu-guest-agent  # needed by packer
+  - haveged           # prevent vm boot delays
+  - cloud-guest-utils # used by growpart
   - curl
   - psmisc
   - net-tools
-  - cloud-guest-utils
 
 iserver_user_profile: |
-  ##
+  # no-op
