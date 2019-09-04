@@ -40,10 +40,6 @@ d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
 
-### Base system installation
-# The kernel image package to be installed
-# d-i base-installer/kernel/override-image string linux-server
-
 ### Account setup
 # Default user '{{ env("vm_default_user") }}'
 d-i passwd/root-login boolean true
@@ -55,9 +51,6 @@ d-i passwd/root-password-crypted password {{ env("password_hash1") }}
 d-i passwd/user-password-crypted password {{ env("password_hash2") }}
 
 ### Apt setup
-# Install non-free and contrib software.
-# d-i apt-setup/non-free boolean true
-# d-i apt-setup/contrib boolean true
 # prevent the installer from asking about scanning another CD
 apt-cdrom-setup apt-setup/cdrom/set-first boolean false
 

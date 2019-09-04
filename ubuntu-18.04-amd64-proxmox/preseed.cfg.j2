@@ -34,15 +34,10 @@ d-i partman-auto/expert_recipe string \
                         use_filesystem{ } filesystem{ ext4 } \
                         mountpoint{ / } \
                 .
-#d-i partman-auto/choose_recipe select myroot
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
-
-### Base system installation
-# d-i base-installer/install-recommends boolean true
-# d-i base-installer/kernel/image string linux-generic
 
 ### Account setup
 # Default user '{{ env("vm_default_user") }}'
@@ -53,15 +48,6 @@ d-i user-setup/encrypt-home boolean false
 # Encrypted root and user passwords
 d-i passwd/root-password-crypted password {{ env("password_hash1") }}
 d-i passwd/user-password-crypted password {{ env("password_hash2") }}
-
-### Apt setup
-# d-i apt-setup/restricted boolean true
-# d-i apt-setup/universe boolean true
-# d-i apt-setup/backports boolean true
-# d-i apt-setup/use_mirror boolean false
-# d-i apt-setup/services-select multiselect security, updates
-# d-i apt-setup/security_host string security.ubuntu.com
-# d-i apt-setup/security_path string /ubuntu
 
 ### Package selection
 tasksel tasksel/first multiselect standard, server
