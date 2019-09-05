@@ -95,8 +95,10 @@ export vm_default_user=$vm_default_user
 # envsubst '$password_hash1 $password_hash2 $vm_default_user' < preseed.cfg.tmpl > http/preseed.cfg
 # j2 is the better solution than 'envsubst' which messes up '$' in the text unless you specify each variable
 mkdir -p http
-j2 preseed.cfg.j2 > http/preseed.cfg
-[[ -f http/preseed.cfg ]] || { echo "Customized preseed.cfg file not found."; exit 1; }
+if [[ -f preseed.cfg.j2 ]]; then
+    j2 preseed.cfg.j2 > http/preseed.cfg
+    [[ -f http/preseed.cfg ]] || { echo "Customized preseed.cfg file not found."; exit 1; }
+fi
 
 ## Call Packer build with the provided data
 case $target in
