@@ -1,0 +1,96 @@
+{
+    "description": "Build Alpine Linux 3.10 x86_64 Proxmox template",
+    "variables": {
+        "proxmox_url": "{{env `proxmox_url`}}",
+        "proxmox_username": "root@pam",
+        "proxmox_password": "{{user `proxmox_password`}}",
+        "iso_filename": "{{user `iso_filename`}}",
+        "vm_id": "{{user `vm_id`}}",
+        "vm_name": "alpine310-tmpl",
+        "template_description": "Alpine Linux 3.10 x86_64 template built with packer. Username: {{env `vm_default_user`}}",
+        "vm_default_user": "{{env `vm_default_user`}}",
+        "vm_memory": "{{env `vm_memory`}}",
+        "ssh_username": "root",
+        "ssh_password": "{{user `ssh_password`}}"
+    },
+    "sensitive-variables": ["proxmox_password", "ssh_password" ],
+    "provisioners": [
+      {
+        "type": "shell",
+        "scripts": [
+          "scripts/00base.sh",
+          "scripts/01alpine.sh",
+          "scripts/01networking.sh",
+          "scripts/02sshd.sh",
+          "scripts/04sudoers.sh",
+          "scripts/70random.sh",
+          "scripts/80cloudinit.sh",
+          "scripts/90showip.sh",
+          "scripts/99minimize.sh"
+        ]
+      }
+    ],
+    "builders": [
+        {
+            "type": "proxmox",
+            "proxmox_url":  "{{user `proxmox_url`}}",
+            "insecure_skip_tls_verify": true,
+            "username": "{{user `proxmox_username`}}",
+            "password": "{{user `proxmox_password`}}",
+            "vm_id":  "{{user `vm_id`}}",
+            "vm_name": "{{user `vm_name`}}",
+            "template_description":"{{user `template_description`}}",
+            "memory": "{{user `vm_memory`}}",
+            "cores": "2",
+            "os": "l26",
+            "http_directory": "http",
+
+            "node": "proxmox",
+            "network_adapters": [
+              {
+                "model": "virtio",
+                "bridge": "vmbr1"
+              }
+            ],
+            "disks": [
+              {
+                "type": "scsi",
+                "disk_size": "8G",
+                "storage_pool": "local",
+                "storage_pool_type": "directory",
+                "format": "qcow2"
+              }
+            ],
+            "ssh_username": "{{user `ssh_username`}}",
+            "ssh_password": "{{user `ssh_password`}}",
+            "ssh_timeout": "10m",
+            "iso_file": "local:iso/{{user `iso_filename`}}",
+            "unmount_iso": true,
+            "boot_wait": "20s",
+            "boot_command": [
+                "root<enter><wait>",
+                "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
+                "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",
+                "setup-alpine -f $PWD/answers<enter><wait5>",
+                "{{user `ssh_password`}}<enter><wait>",
+                "{{user `ssh_password`}}<enter><wait>",
+                "<wait10><wait10>",
+                "y<enter>",
+                "<wait10><wait10><wait10>",
+                "<wait10><wait10><wait10>",
+                "rc-service sshd stop<enter>",
+                "mount /dev/sda2 /mnt<enter>",
+                "echo 'PermitRootLogin yes' >> /mnt/etc/ssh/sshd_config<enter>",
+                "umount /mnt<enter>",
+                "reboot<enter>"
+            ]
+        }
+    ],
+    "post-processors": [
+      {
+        "type": "shell-local",
+        "inline_shebang": "/bin/bash -e",
+        "inline": ["qm set {{user `vm_id`}} --scsihw virtio-scsi-pci --serial0 socket --vga serial0"]
+      }
+  ]
+}

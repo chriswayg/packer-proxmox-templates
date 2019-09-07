@@ -1,0 +1,16 @@
+---
+# Any remote_user defined in tasks will be ignored.
+# Packer will always connect with the user given in the json config for this provisioner.
+# https://www.packer.io/docs/provisioners/ansible.html
+
+# TODO: For unclear reasons, I could only get it to work with the root user in Packer
+# 'become' in playbook or role tasks seem to be ignored by Packer Ansible
+
+- name: Initial configuration of a server.
+  hosts: all
+  vars_files:
+    - server-template-vars.yml
+  roles:
+    - role: ansible-initial-server
+      vars:
+        iserver_user: "{{ vm_default_user }}"

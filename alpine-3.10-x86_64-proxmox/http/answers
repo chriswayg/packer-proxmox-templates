@@ -1,0 +1,16 @@
+KEYMAPOPTS="us us"
+HOSTNAMEOPTS="-n alpine310"
+INTERFACESOPTS="auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+    hostname alpine310
+"
+DNSOPTS="-d local -n 1.1.1.1 1.0.0.1"
+TIMEZONEOPTS="-z UTC"
+PROXYOPTS="none"
+APKREPOSOPTS="http://dl-cdn.alpinelinux.org/alpine/v3.10/main"
+SSHDOPTS="-c openssh"
+NTPOPTS="-c openntpd"
+DISKOPTS="-s 0 -m sys /dev/sda"
