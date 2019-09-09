@@ -21,6 +21,3 @@ iserver_packages:
   - curl
   - psmisc
   - net-tools
-
-iserver_user_profile: |
-  # no-op
