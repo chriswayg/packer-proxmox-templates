@@ -1,0 +1,10 @@
+System hostname = openbsd
+Password for root account = {{ env("password_hash1") }}
+Do you expect to run the X Window System = no
+Setup a user = christian
+Password for user christian = {{ env("password_hash2") }}
+Allow root ssh login = yes
+Set name(s) = -comp* -game* -x*
+Directory does not contain SHA256.sig. Continue without verification = yes
+
+# use a static IP for SSH from packer, then switch back to dhcp for template
