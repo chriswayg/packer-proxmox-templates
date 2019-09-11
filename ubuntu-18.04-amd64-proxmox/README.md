@@ -15,6 +15,9 @@
 - automatically grow partition after resize by Proxmox
 
 ### Check Prerequisites
+
+The build script which will run the packer template is *configured to run on the Proxmox server*. Thus the following pre-requisites should be installed on the Proxmox server:
+
 - [Proxmox 6](https://www.proxmox.com/en/downloads)
 
 - [Packer](https://www.packer.io/downloads.html)
@@ -36,19 +39,19 @@ pip3 install ansible==2.7.10
 
 - [j2cli](https://github.com/kolypto/j2cli) `pip3 install j2cli` or `pip3 install j2cli[yaml]`
 
-### Fork and clone packer-proxmox-templates
+### Download the latest release of packer-proxmox-templates
 
-`git clone https://github.com/chriswayg/packer-proxmox-templates.git`
+`wget https://github.com/chriswayg/packer-proxmox-templates/archive/v1.3.zip && unzip v1.3.zip`
 
 ### Usage
 
 On the Proxmox Server with Packer installed:
 
-- edit `build.conf`, especially the Proxmox URL & ISO download links
+- edit `build.conf`, especially the Proxmox URL & ISO download links (for the latest distro version)
 - edit `playbook/server-template-vars.yml`, especially the SSH Key & repos
 
 ```
-cd packer-proxmox-templates/ubuntu-18.04-amd64-proxmox
+cd packer-proxmox-templates-1.3/ubuntu-18.04-amd64-proxmox
 
 ../build.sh proxmox
 ```
