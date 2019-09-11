@@ -1,4 +1,7 @@
 System hostname = openbsd
+IPv4 address for vio0 = 10.10.10.230
+Default IPv4 route = 10.10.10.1
+ DNS nameservers = 1.1.1.1 1.0.0.1
 Password for root account = {{ env("password_hash1") }}
 Do you expect to run the X Window System = no
 Setup a user = christian
@@ -8,3 +11,25 @@ Set name(s) = -comp* -game* -x*
 Directory does not contain SHA256.sig. Continue without verification = yes
 
 # use a static IP for SSH from packer, then switch back to dhcp for template
+
+System hostname = openbsd
+Which network interface do you wish to configure = vio0
+IPv4 address for vio0 = dhcp
+IPv6 address for vio0 = none
+Which network interface do you wish to configure = done
+Public ssh key for root account = none
+Start sshd(8) by default = yes
+Do you expect to run the X Window System = no
+Setup a user = no
+Allow root ssh login = yes
+What timezone are you in = Asia/Manila
+Which disk is the root disk = sd0
+Use (W)hole disk MBR, whole disk (G)PT or (E)dit = whole
+URL to autopartitioning template for disklabel = none
+Use (A)uto layout, (E)dit auto layout, or create (C)ustom layout = a
+Location of sets = cd0
+Pathname to the sets = 6.5/amd64
+Set name(s) = -comp* -game* -x*
+Set name(s) = done
+Directory does not contain SHA256.sig. Continue without verification = yes
+Location of sets = done
