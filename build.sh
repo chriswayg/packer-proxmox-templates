@@ -95,9 +95,21 @@ export vm_default_user=$vm_default_user
 # envsubst '$password_hash1 $password_hash2 $vm_default_user' < preseed.cfg.tmpl > http/preseed.cfg
 # j2 is the better solution than 'envsubst' which messes up '$' in the text unless you specify each variable
 mkdir -p http
+
+# Debian & Ubuntu
 if [[ -f preseed.cfg.j2 ]]; then
+    printf "\n=> Customizing auto preseed.cfg\n\n"
     j2 preseed.cfg.j2 > http/preseed.cfg
     [[ -f http/preseed.cfg ]] || { echo "Customized preseed.cfg file not found."; exit 1; }
+fi
+
+# OpenBSD
+if [[ -f install.conf.j2 ]]; then
+    export ssh_password=$ssh_password
+    export password_hash1=$(python -c "import os, bcrypt; print(bcrypt.hashpw(os.environ['ssh_password'], bcrypt.gensalt(rounds=10)))")
+    printf "\n=> Customizing install.conf\n\n"
+    j2 install.conf.j2 > http/install.conf
+    [[ -f http/install.conf ]] || { echo "Customized install.conf file not found."; exit 1; }
 fi
 
 ## Call Packer build with the provided data
