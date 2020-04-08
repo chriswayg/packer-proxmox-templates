@@ -1,0 +1,3 @@
+[servers]
+
+OpenBSD ansible_host=10.10.10.230 ansible_port=22

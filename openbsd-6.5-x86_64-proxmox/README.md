@@ -30,7 +30,7 @@ packer --version
 - [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) 2.7.10
 
 ```
-apt -y install python3-pip
+apt -y install python3-pip sshpass
 pip3 install ansible==2.7.10
 ```
 

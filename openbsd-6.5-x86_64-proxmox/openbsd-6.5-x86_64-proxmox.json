@@ -38,7 +38,7 @@
             "template_description":"{{user `template_description`}}",
             "memory": "{{user `vm_memory`}}",
             "cores": "2",
-            "os": "l26",
+            "os": "other",
             "http_directory": "http",
 
             "node": "proxmox",
@@ -60,14 +60,14 @@
             "ssh_username": "{{user `ssh_username`}}",
             "ssh_password": "{{user `ssh_password`}}",
             "ssh_timeout": "15m",
-            "ssh_host": "10.10.10.55",
+            "ssh_host": "10.10.10.230",
             "qemu_agent": false,
             "iso_file": "local:iso/{{user `iso_filename`}}",
             "unmount_iso": true,
             "boot_wait": "30s",
             "boot_command": [
               "a<enter><wait>",
-              "<wait10>",
+              "<wait5>",
               "http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.conf<enter><wait>",
               "<wait5>",
               "i<enter><wait>"
