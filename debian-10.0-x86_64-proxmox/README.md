@@ -24,7 +24,7 @@ The build script which will run the packer template is *configured to run on the
 
 ```
 apt -y install unzip
-packer_ver=1.4.3
+packer_ver=1.5.5
 wget https://releases.hashicorp.com/packer/${packer_ver}/packer_${packer_ver}_linux_amd64.zip
 unzip packer_${packer_ver}_linux_amd64.zip -d /usr/local/bin
 packer --version
@@ -41,7 +41,7 @@ pip3 install ansible==2.7.10
 
 ### Download the latest release of packer-proxmox-templates
 
-`wget https://github.com/chriswayg/packer-proxmox-templates/archive/v1.3.zip && unzip v1.3.zip`
+`wget https://github.com/chriswayg/packer-proxmox-templates/archive/v1.4.zip && unzip v1.4.zip`
 
 ### Usage
 
@@ -51,7 +51,7 @@ On the Proxmox Server with Packer installed:
 - edit `playbook/server-template-vars.yml`, especially the SSH Key & regional repos
 
 ```
-cd packer-proxmox-templates-1.3/debian-10.0.0-x86_64-proxmox
+cd packer-proxmox-templates-1.4/debian-10.0.0-x86_64-proxmox
 
 ../build.sh proxmox
 ```
@@ -86,10 +86,11 @@ printf  "$(lsb_release -d) $(cat /etc/debian_version)\n" && \
   ansible --version |  sed -n '1p' && \
   j2 --version
 
-      Description:	Debian GNU/Linux 10 (buster) 10.0
-      Proxmox pve-manager/6.0-5/f8a710d7 (running kernel: 5.0.18-1-pve)
-      Packer v1.4.3
+      Description:	Debian GNU/Linux 10 (buster) 10.3
+      Proxmox pve-manager/6.1-8/806edfe1 (running kernel: 5.3.18-3-pve)
+      Packer v1.5.5
       ansible 2.7.10
-      j2cli 0.3.10, Jinja2 2.10.1
+      j2cli 0.3.10, Jinja2 2.11.1
+
 
 ```
