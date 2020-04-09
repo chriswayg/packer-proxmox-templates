@@ -37,6 +37,8 @@ source $build_conf
 [[ -z "$iso_sha256_url" ]] && die_var_unset "iso_sha256_url"
 [[ -z "$iso_directory" ]] && die_var_unset "iso_directory"
 
+## TODO: could also check, that prereqs are installed and install them
+
 ## check that build-mode (proxmox|debug) is passed to script
 target=${1:-}
 [[ "${1}" == "proxmox" ]] || [[ "${1}" == "debug" ]] || help
@@ -86,27 +88,29 @@ printf "\n=> Downloading Ansible role\n\n"
 ansible-galaxy install --force -p playbook/roles -r playbook/requirements.yml
 [[ -f playbook/roles/ansible-initial-server/tasks/main.yml ]] || { echo "Ansible role not found."; exit 1; }
 
-## Insert the password hashes for root and default user to preseed.cfg using a Jinja2 template
 # the vm_default_user name will be used by Packer and Ansible
-export password_hash1=$(mkpasswd -R 1000000 -m sha-512 $ssh_password)
-export password_hash2=$(mkpasswd -R 1000000 -m sha-512 $ssh_password)
 export vm_default_user=$vm_default_user
+export ssh_password=$ssh_password
 
-# envsubst '$password_hash1 $password_hash2 $vm_default_user' < preseed.cfg.tmpl > http/preseed.cfg
-# j2 is the better solution than 'envsubst' which messes up '$' in the text unless you specify each variable
 mkdir -p http
 
+# j2 is the better solution than 'envsubst' which messes up '$' in the text unless you specify each variable
+
 # Debian & Ubuntu
+## Insert the password hashes for root and default user into preseed.cfg using a Jinja2 template
 if [[ -f preseed.cfg.j2 ]]; then
+    export password_hash1=$(mkpasswd -R 1000000 -m sha-512 $ssh_password)
+    export password_hash2=$(mkpasswd -R 1000000 -m sha-512 $ssh_password)
     printf "\n=> Customizing auto preseed.cfg\n\n"
     j2 preseed.cfg.j2 > http/preseed.cfg
     [[ -f http/preseed.cfg ]] || { echo "Customized preseed.cfg file not found."; exit 1; }
 fi
 
 # OpenBSD
+## Insert the password hashes for root and default user into install.conf using a Jinja2 template
 if [[ -f install.conf.j2 ]]; then
-    export ssh_password=$ssh_password
-    export password_hash1=$(python -c "import os, bcrypt; print(bcrypt.hashpw(os.environ['ssh_password'], bcrypt.gensalt(rounds=10)))")
+    export password_hash1=$(python3 -c "import os, bcrypt; print(bcrypt.hashpw(os.environ['ssh_password'], bcrypt.gensalt(10)))")
+    export password_hash2=$(python3 -c "import os, bcrypt; print(bcrypt.hashpw(os.environ['ssh_password'], bcrypt.gensalt(10)))")
     printf "\n=> Customizing install.conf\n\n"
     j2 install.conf.j2 > http/install.conf
     [[ -f http/install.conf ]] || { echo "Customized install.conf file not found."; exit 1; }
@@ -128,5 +132,6 @@ case $target in
         ;;
 esac
 
-## remove preseed.cfg which has the hashed passwords
-printf "=> "; rm -v http/preseed.cfg
+## remove file which has the hashed passwords
+[[ -f http/preseed.cfg ]] && printf "=> " && rm -v http/preseed.cfg
+[[ -f http/install.conf ]] && printf "=> " && rm -v http/install.conf
