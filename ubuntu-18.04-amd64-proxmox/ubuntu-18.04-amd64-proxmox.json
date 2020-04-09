@@ -1,5 +1,5 @@
 {
-    "description": "Build deploy 18.04 (bionic) x86_64 Proxmox template",
+    "description": "Build Ubuntu 18.04 (bionic) x86_64 Proxmox template",
     "variables": {
         "proxmox_url": "{{env `proxmox_url`}}",
         "proxmox_username": "root@pam",
@@ -20,8 +20,7 @@
         "playbook_file": "./playbook/server-template.yml",
         "extra_arguments": [
           "-v",
-          "--extra-vars", "vm_default_user={{user `vm_default_user`}}",
-          "--tags", "vanilla"
+          "--extra-vars", "vm_default_user={{user `vm_default_user`}}"
         ],
         "ansible_env_vars": [ "ANSIBLE_CONFIG=./playbook/ansible.cfg", "ANSIBLE_FORCE_COLOR=True" ]
       }
