@@ -1,13 +1,13 @@
 {
-    "description": "Build OpenBSD 6.5 x86_64 Proxmox template",
+    "description": "Build OpenBSD 6 x86_64 Proxmox template",
     "variables": {
         "proxmox_url": "{{env `proxmox_url`}}",
         "proxmox_username": "root@pam",
         "proxmox_password": "{{user `proxmox_password`}}",
         "iso_filename": "{{user `iso_filename`}}",
         "vm_id": "{{user `vm_id`}}",
-        "vm_name": "deb10-tmpl",
-        "template_description": "OpenBSD 6.5 x86_64 template built with packer. Username: {{env `vm_default_user`}}",
+        "vm_name": "openbsd6-tmpl",
+        "template_description": "OpenBSD 6 x86_64 template built with packer. Username: {{env `vm_default_user`}}",
         "vm_default_user": "{{env `vm_default_user`}}",
         "vm_memory": "{{env `vm_memory`}}",
         "ssh_username": "root",
