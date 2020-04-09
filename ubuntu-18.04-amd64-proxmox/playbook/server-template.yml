@@ -3,8 +3,8 @@
 # Packer will always connect with the user given in the json config for this provisioner.
 # https://www.packer.io/docs/provisioners/ansible.html
 
-# TODO: For unclear reasons, I could only get it to work with the root user in Packer
-# 'become' in playbook or role tasks seem to be ignored by Packer Ansible
+# TODO: For unclear reasons, I could only get it to work with the root user in Packer.
+# 'become' in playbook or role tasks seems to be ignored by Packer Ansible
 
 - name: Initial configuration of a server.
   hosts: all
