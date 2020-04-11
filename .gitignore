@@ -11,7 +11,7 @@ roles/
 crash_logs/
 logs/
 debug/
-http/
+releases/
 
 # ignore packer_cache
 packer_cache
