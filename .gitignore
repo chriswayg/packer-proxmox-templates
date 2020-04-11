@@ -9,6 +9,9 @@
 test/
 roles/
 crash_logs/
+logs/
+debug/
+http/
 
 # ignore packer_cache
 packer_cache
@@ -17,6 +20,7 @@ packer-qemu
 
 # created from template
 preseed.cfg
+install.conf
 
 # others
 cloud-config.yml
