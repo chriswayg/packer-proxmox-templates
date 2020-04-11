@@ -3,15 +3,15 @@
 
 - use the latest tagged version which has been tested more thoroughly than 'master'
 
-#### [Debian ](https://www.debian.org/releases/) v10 (buster) [Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/debian-10-amd64-proxmox) using Packer Proxmox Builder to build a Proxmox VM image template (working well)
+#### [Debian ](https://www.debian.org/releases/) v10 (buster) [Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/debian-10-amd64-proxmox) using Packer Proxmox Builder to build a Proxmox VM image template
 
-#### [Ubuntu ](http://releases.ubuntu.com/) 18.04 (bionic) [Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/ubuntu-18.04-amd64-proxmox) using Packer Proxmox Builder to build a Proxmox VM image template (working well)
+#### [Ubuntu ](http://releases.ubuntu.com/) 18.04 (bionic) [Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/ubuntu-18.04-amd64-proxmox) using Packer Proxmox Builder to build a Proxmox VM image template
 
 #### [OpenBSD ](https://www.openbsd.org/index.html) 6 [Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/openbsd-6-amd64-proxmox) using Packer Proxmox Builder to build a Proxmox VM image template
 
-#### [Alpine](https://wiki.alpinelinux.org/wiki/Alpine_Linux:Releases)  Linux [Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/alpine3.10-qemu) using QEMU Builder to build a KVM image usable in Openstack (or Proxmox)
+#### [Alpine](https://wiki.alpinelinux.org/wiki/Alpine_Linux:Releases)  Linux [Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/alpine3.10-qemu) using QEMU Builder to build a KVM image usable in Openstack or Proxmox
 
-#### [Alpine](https://wiki.alpinelinux.org/wiki/Alpine_Linux:Releases)  Linux [Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/alpine-3.10-x86_64-proxmox) using Packer Proxmox Builder to build a Proxmox VM image template (unfinished)
+#### [Alpine](https://wiki.alpinelinux.org/wiki/Alpine_Linux:Releases)  Linux [Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/alpine-3.10-x86_64-proxmox) using Packer Proxmox Builder to build a Proxmox VM image template
 
 
 ## Proxmox KVM image templates
@@ -58,7 +58,7 @@ pip3 install j2cli[yaml]
 
 ### Download the latest release of packer-proxmox-templates on the Proxmox server
 
-`wget https://github.com/chriswayg/packer-proxmox-templates/archive/v1.4.zip && unzip v1.4.zip && cd packer-proxmox-templates-*`
+`wget https://github.com/chriswayg/packer-proxmox-templates/archive/v1.5.zip && unzip v1.5.zip && cd packer-proxmox-templates-*`
 
 ### Usage
 
@@ -118,4 +118,4 @@ printf  "$(lsb_release -d) $(cat /etc/debian_version)\n" && \
       j2cli 0.3.10, Jinja2 2.11.1
 ```
 
-For security reasons it would be preferable to build the Proxmox template images on a local Proxmox staging server (for example in a VM) and then to transfer the Proxmox templates using migration onto the live server(s).
+**NOTE:** For security reasons it would be preferable to build the Proxmox template images on a local Proxmox staging server (for example in a VM) and then to transfer the Proxmox templates using migration onto the live server(s).

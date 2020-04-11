@@ -1,5 +1,7 @@
 ## [Debian ](http://debian.org) v10.0 (buster) Packer Template using [Packer Proxmox Builder](https://www.packer.io/docs/builders/proxmox.html) to build a Proxmox KVM image template
 
+Status: **working well**
+
 - downloads the ISO and places it in Proxmox
 - creates a Proxmox VM
 - builds the image using preseed.cfg and Ansible

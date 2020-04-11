@@ -1,5 +1,7 @@
 ## [Alpine Linux](http://alpinelinux.org) Packer Template using QEMU Builder to build a KVM cloud image usable in Proxmox or Openstack
 
+Status: **working, limited testing**
+
 * this creates a cloud image with cloud-init to be used on Proxmox and possibly Openstack
 
 ### Prerequisites
