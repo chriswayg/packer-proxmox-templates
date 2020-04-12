@@ -27,6 +27,7 @@
 The build script which will run the packer template is *configured to run on the Proxmox server*. Thus the following pre-requisites should be installed on the Proxmox server:
 
 - Ensure that [Proxmox 6](https://www.proxmox.com/en/downloads) is installed
+- Set up a DHCP server on `vmbr1` (for example `isc-dhcp-server`) see section [DHCP](https://github.com/chriswayg/ansible-proxmox/blob/master/tasks/main.yml)
 
 ```
 printf  "Proxmox $(pveversion)\n"
