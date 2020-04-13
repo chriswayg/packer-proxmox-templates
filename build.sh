@@ -45,7 +45,7 @@ target=${1:-}
 
 ## VM ID for new VM template (overrides default from build.conf)
 vm_id=${2:-$default_vm_id}
-printf "\n=> Using VM ID: $vm_id with default user: '$vm_default_user'\n"
+printf "\n==> Using VM ID: $vm_id with default user: '$vm_default_user'\n"
 
 ## template_name is based on name of current directory, check it exists
 template_name="${PWD##*/}.json"
@@ -76,7 +76,7 @@ fi
 [[ -z "$ssh_password" ]] && echo "The SSH Password is required." && exit 1
 
 ## download ISO and Ansible role
-printf "\n==> Downloading and checking ISO\n\n"
+printf "\n=> Downloading and checking ISO\n\n"
 iso_filename=$(basename $iso_url)
 wget -P $iso_directory -N $iso_url                  # only re-download when newer on the server
 wget --no-verbose $iso_sha256_url -O $iso_directory/SHA256SUMS  # always download and overwrite
@@ -101,7 +101,7 @@ mkdir -p http
 if [[ -f preseed.cfg.j2 ]]; then
     export password_hash1=$(mkpasswd -R 1000000 -m sha-512 $ssh_password)
     export password_hash2=$(mkpasswd -R 1000000 -m sha-512 $ssh_password)
-    printf "\n=> Customizing auto preseed.cfg\n\n"
+    printf "\n=> Customizing auto preseed.cfg\n"
     j2 preseed.cfg.j2 > http/preseed.cfg
     [[ -f http/preseed.cfg ]] || { echo "Customized preseed.cfg file not found."; exit 1; }
 fi
@@ -111,7 +111,7 @@ fi
 if [[ -f install.conf.j2 ]]; then
     export password_hash1=$(python3 -c "import os, bcrypt; print(bcrypt.hashpw(os.environ['ssh_password'], bcrypt.gensalt(10)))")
     export password_hash2=$(python3 -c "import os, bcrypt; print(bcrypt.hashpw(os.environ['ssh_password'], bcrypt.gensalt(10)))")
-    printf "\n=> Customizing install.conf\n\n"
+    printf "\n=> Customizing install.conf\n"
     j2 install.conf.j2 > http/install.conf
     [[ -f http/install.conf ]] || { echo "Customized install.conf file not found."; exit 1; }
 fi
