@@ -7,7 +7,7 @@
         "iso_filename": "{{user `iso_filename`}}",
         "vm_id": "{{user `vm_id`}}",
         "vm_name": "deb10-tmpl",
-        "template_description": "Debian 10 x86_64 template built with packer. Username: {{env `vm_default_user`}}",
+        "template_description": "Debian 10 x86_64 template built with packer ({{user `vm_ver`}}). Username: {{env `vm_default_user`}}",
         "vm_default_user": "{{env `vm_default_user`}}",
         "vm_memory": "{{env `vm_memory`}}",
         "ssh_username": "root",

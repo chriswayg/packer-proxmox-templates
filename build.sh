@@ -116,16 +116,18 @@ if [[ -f install.conf.j2 ]]; then
     [[ -f http/install.conf ]] || { echo "Customized install.conf file not found."; exit 1; }
 fi
 
+vm_ver=$(git describe --tags)
+
 ## Call Packer build with the provided data
 case $target in
     proxmox)
         printf "\n==> Build and create a Proxmox template.\n\n"
         # single quotes such as -var 'vm_id=$vm_id' do not work here
-        packer build -var iso_filename=$iso_filename -var vm_id=$vm_id -var proxmox_password=$proxmox_password -var ssh_password=$ssh_password $template_name
+        packer build -var iso_filename=$iso_filename -var vm_ver=$vm_ver -var vm_id=$vm_id -var proxmox_password=$proxmox_password -var ssh_password=$ssh_password $template_name
         ;;
     debug)
         printf "\n==> DEBUG: Build and create a Proxmox template.\n\n"
-        PACKER_LOG=1 packer build -debug -on-error=ask -var iso_filename=$iso_filename -var vm_id=$vm_id -var proxmox_password=$proxmox_password -var ssh_password=$ssh_password $template_name
+        PACKER_LOG=1 packer build -debug -on-error=ask -var iso_filename=$iso_filename -var vm_ver=$vm_ver -var vm_id=$vm_id -var proxmox_password=$proxmox_password -var ssh_password=$ssh_password $template_name
         ;;
     *)
         help
