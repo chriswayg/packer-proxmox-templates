@@ -1,10 +1,15 @@
 ## [Alpine Linux](http://alpinelinux.org) Packer Template using [Packer Proxmox Builder](https://www.packer.io/docs/builders/proxmox.html) to build a Proxmox KVM image template
 
-Status: **unfinished, experimental**
+Status: **unfinished, not working**
 
+### TODO
+- fix error openntpd missing
+- ssh from packer does not connect
+
+### Features
 - downloads the ISO and places it in Proxmox
 - creates a Proxmox VM
-- builds the image using preseed.cfg and Ansible
+- builds the image using an answers file and Ansible
 - stores it as a Proxmox Template
 
 ### Configurations
