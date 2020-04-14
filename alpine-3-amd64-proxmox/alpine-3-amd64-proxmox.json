@@ -75,7 +75,7 @@
                 "{{user `ssh_password`}}<enter><wait>",
                 "{{user `ssh_password`}}<enter><wait>",
                 "<wait10><wait10><wait10>",
-                "<wait10>",
+                "<wait10><wait10><wait10>",
                 "<enter>",
                 "<wait10>",
                 "<enter>",
