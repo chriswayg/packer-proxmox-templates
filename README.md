@@ -39,7 +39,7 @@ printf  "Proxmox $(pveversion)\n"
 apt -y install unzip
 packer_ver=1.5.5
 wget https://releases.hashicorp.com/packer/${packer_ver}/packer_${packer_ver}_linux_amd64.zip
-unzip packer_${packer_ver}_linux_amd64.zip -d /usr/local/bin
+sudo unzip packer_${packer_ver}_linux_amd64.zip -d /usr/local/bin
 packer --version
 ```
 
