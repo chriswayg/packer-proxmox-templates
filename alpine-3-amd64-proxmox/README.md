@@ -2,9 +2,9 @@
 
 Status: **unfinished, not working**
 
-### TODO
-- fix error openntpd missing
-- ssh from packer does not connect
+### TODO fix
+- seems to complete install up to reboot, but cannot boot from newly installed alpine
+- ssh from packer does not connect, as it reboots into CD
 
 ### Features
 - downloads the ISO and places it in Proxmox
