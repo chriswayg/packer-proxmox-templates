@@ -48,7 +48,7 @@
 
       "communicator": "ssh",
       "ssh_username": "root",
-      "ssh_password": "alpine",
+      "ssh_password": "alpineqemu",
       "ssh_wait_timeout": "10m",
       "shutdown_command": "poweroff",
 
