@@ -74,7 +74,7 @@
   "post-processors": [
     {
       "type": "shell-local",
-      "inline": ["cp -rfv output-qemu/packer-qemu alpine-311-cloudimg-amd64.qcow2"]
+      "inline": ["mv -rfv output-qemu/packer-qemu alpine-311-cloudimg-amd64.qcow2"]
     }
   ]
 }
