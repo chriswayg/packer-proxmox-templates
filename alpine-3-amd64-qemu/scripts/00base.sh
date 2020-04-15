@@ -4,8 +4,4 @@ apk upgrade -U --available
 
 source /etc/os-release
 
-cat > /etc/motd << "EOF"
-
- $PRETTY_NAME ($VERSION_ID) Cloud Server
-
-EOF
+printf "\n $PRETTY_NAME ($VERSION_ID) Cloud Server\n\n" > /etc/motd
