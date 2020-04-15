@@ -25,6 +25,7 @@
   "builders": [
     {
       "type": "qemu",
+      "qemu_binary": "qemu-system-x86_64",
       "format": "qcow2",
       "accelerator": "kvm",
       "qemuargs": [
@@ -57,8 +58,8 @@
         "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
         "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",
         "setup-alpine -f $PWD/answers<enter><wait5>",
-        "alpine<enter><wait>",
-        "alpine<enter><wait>",
+        "alpineqemu<enter><wait>",
+        "alpineqemu<enter><wait>",
         "<wait10><wait10>",
         "y<enter>",
         "<wait10><wait10><wait10>",
@@ -74,7 +75,7 @@
   "post-processors": [
     {
       "type": "shell-local",
-      "inline": ["mv -fv output-qemu/packer-qemu alpine-311-cloudimg-amd64.qcow2 && rmdir -v output-qemu"]
+      "inline": ["mv -fv output-qemu/packer-qemu output/alpine-311-cloudimg-amd64.qcow2 && rmdir -v output-qemu"]
     }
   ]
 }
