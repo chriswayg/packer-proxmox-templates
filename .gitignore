@@ -1,4 +1,5 @@
 *.img
+*.qcow2
 *.bz2
 *.zip
 *.bak
