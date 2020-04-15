@@ -1,12 +1,36 @@
 ## [Alpine Linux](http://alpinelinux.org) Packer Template using QEMU Builder to build a KVM cloud image usable in Proxmox or Openstack
 
-Status: **working, limited testing**
+Status: **working**
 
 * this creates a cloud image with cloud-init to be used on Proxmox and possibly Openstack
 
 ### Prerequisites
-- qemu-system-x86_64
-- packer
+
+1) Packer 1.5.5 requires a recent qemu version with gtk support and fails on Ubuntu 18.04. Therefore install a current qemu from source.
+
+- Install qemu build dependencies
+
+```
+sudo apt autoremove
+sudo apt purge qemu
+
+#sudo apt-get install build-essential pkg-config libglib2.0-dev  libpixman-1-dev libgtk-3-dev
+sudo apt-get build-dep qemu
+sudo apt-get install libgtk-3-dev checkinstall
+```
+
+- Build and install qemu 4.2.0
+
+```
+wget https://download.qemu.org/qemu-4.2.0.tar.xz
+tar xvJf qemu-4.2.0
+cd qemu-4.2.0
+./configure --target-list=x86_64-softmmu --enable-gtk
+make
+sudo checkinstall
+```
+
+2) Install packer (see pre-reqs in main README)
 
 ### Usage notes
 
@@ -14,14 +38,17 @@ Status: **working, limited testing**
 cd alpine-3-amd64-qemu
 sudo packer build alpine-3-amd64-qemu.json
 ```
-- The image is output as `alpine-311-cloudimg-amd64.qcow2` in the current directory
+- The image is saved as `alpine-311-cloudimg-amd64.qcow2` in the `output` directory
 
 - Test the image locally:
+  - adapt `user-data` and `meta-data` as needed
+  - login as root on the console. Password: alpineqemu
+  - login via ssh
 
 ```sh
-genisoimage -output cloud-data.iso -volid cidata -joliet -rock user-data meta-data
+genisoimage -output output/cloud-data.iso -volid cidata -joliet -rock user-data meta-data
 
-sudo qemu-system-x86_64 alpine-311-cloudimg-amd64.qcow2 -netdev  user,id=user.0,hostfwd=tcp::2222-:22 -device  virtio-net,netdev=user.0 -cdrom cloud-data.iso
+sudo qemu-system-x86_64 output/alpine-311-cloudimg-amd64.qcow2 -netdev  user,id=user.0,hostfwd=tcp::2222-:22 -device  virtio-net,netdev=user.0 -cdrom output/cloud-data.iso
 
 ssh -i alpine_id_rsa -p 2222 alpine@localhost
 ```
@@ -30,13 +57,14 @@ ssh -i alpine_id_rsa -p 2222 alpine@localhost
 
 ### Features
 - default user alpine
+- add user-data via image drive
 - SSH login only via SHH key
 - passwordless sudo
-- no root login via console or ssh
-- add user-data via image drive
+- no root login via ssh
+  - optional root login via console
 
-### cloud-init on Alpine
-- is not quite complete
+### cloud-init features on Alpine
+- the fuctionality is not quite complete on Alpine
 
 #### Working
 - getting user and metadata from image drive
@@ -50,6 +78,7 @@ ssh -i alpine_id_rsa -p 2222 alpine@localhost
 - writing of network config
 - password for user (not entered into `/etc/shadow`)
 - changed data on image-drive is not applied after 1st boot
+- serial console appears to be buggy, making it hard to log in
 
 ### Fulfills most Openstack requirements
 
@@ -74,8 +103,8 @@ For a Linux-based image to have full functionality in an OpenStack Compute cloud
 packer version && qemu-system-x86_64 -version && lsb_release -d
 
       Packer v1.5.5
-      QEMU emulator version 2.11.1
-      Description:	Ubuntu 18.04.4 LTS
+      QEMU emulator version 4.2.0
+      Ubuntu 18.04.4 LTS
 ```
 
 ### License and Credits
