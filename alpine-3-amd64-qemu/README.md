@@ -11,8 +11,8 @@ Status: **working, limited testing**
 ### Usage notes
 
 ```sh
-cd alpine3-amd64-qemu
-sudo packer build alpine3-amd64-qemu.json
+cd alpine-3-amd64-qemu
+sudo packer build alpine-3-amd64-qemu.json
 ```
 - The image is output as `alpine-311-cloudimg-amd64.qcow2` in the current directory
 
