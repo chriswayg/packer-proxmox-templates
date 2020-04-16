@@ -54,7 +54,7 @@
             ],
             "disks": [
               {
-                "type": "scsi",
+                "type": "sata",
                 "disk_size": "8G",
                 "storage_pool": "local",
                 "storage_pool_type": "directory",
