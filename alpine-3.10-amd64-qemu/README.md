@@ -1,6 +1,6 @@
 ## [Alpine Linux](http://alpinelinux.org) Packer Template using QEMU Builder to build a KVM cloud image usable in Proxmox or Openstack
 
-Status: **working, limited testing**
+Status: **working, limited testing** - use *alpine-3-amd64-qemu* with current Alpine instead
 
 * this creates a cloud image with cloud-init to be used on Proxmox and possibly Openstack
 
