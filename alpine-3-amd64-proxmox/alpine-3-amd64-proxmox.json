@@ -63,7 +63,7 @@
             ],
             "ssh_username": "{{user `ssh_username`}}",
             "ssh_password": "{{user `ssh_password`}}",
-            "ssh_timeout": "10m",
+            "ssh_timeout": "20m",
             "iso_file": "local:iso/{{user `iso_filename`}}",
             "unmount_iso": true,
             "boot_wait": "20s",
