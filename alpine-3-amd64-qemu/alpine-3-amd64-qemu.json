@@ -51,7 +51,6 @@
       "ssh_password": "alpineqemu",
       "ssh_wait_timeout": "10m",
       "shutdown_command": "poweroff",
-
       "boot_wait": "30s",
       "boot_command": [
         "root<enter><wait>",
