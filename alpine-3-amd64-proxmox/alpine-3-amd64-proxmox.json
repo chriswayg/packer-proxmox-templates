@@ -1,5 +1,5 @@
 {
-    "description": "Build Alpine Linux 3.10 x86_64 Proxmox template",
+    "description": "Build Alpine Linux 3 x86_64 Proxmox template",
     "variables": {
         "proxmox_url": "{{env `proxmox_url`}}",
         "proxmox_username": "root@pam",
@@ -7,7 +7,7 @@
         "iso_filename": "{{user `iso_filename`}}",
         "vm_id": "{{user `vm_id`}}",
         "vm_name": "alpine310-tmpl",
-        "template_description": "Alpine Linux 3.10 x86_64 template built with packer ({{user `vm_ver`}}). Username: {{env `vm_default_user`}}",
+        "template_description": "Alpine Linux 3.11 x86_64 template built with packer ({{user `vm_ver`}}). Username: {{env `vm_default_user`}}",
         "vm_default_user": "{{env `vm_default_user`}}",
         "vm_memory": "{{env `vm_memory`}}",
         "ssh_username": "root",
