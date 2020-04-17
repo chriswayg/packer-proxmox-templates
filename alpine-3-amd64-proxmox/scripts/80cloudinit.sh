@@ -1,5 +1,7 @@
 set -eux
 
+apk add cloud-init@testing
+
 # install missing dependencies
 apk add eudev
 
@@ -10,19 +12,17 @@ apk add cloud-utils@testing
 apk add acpi
 apk add nano
 
-# apk add cloud-init@testing
+# make sure CD drive with cloud-init config data gets mounted
+# /dev/sr0        /media/cdrom    iso9660 ro 0 0
+sed -i 's/\/dev\/cdrom/\/dev\/sr0/g' /etc/fstab
+sed -i 's/noauto,ro/ro/g' /etc/fstab
 
-# # make sure CD drive with cloud-init config data gets mounted
-# # /dev/sr0        /media/cdrom    iso9660 ro 0 0
-# sed -i 's/\/dev\/cdrom/\/dev\/sr0/g' /etc/fstab
-# sed -i 's/noauto,ro/ro/g' /etc/fstab
+# writing of network config is not implemented in alpine cloud-init
+#apk add iproute2 ifupdown
+echo "network: {config: disabled}" > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
 
-# # writing of network config is not implemented in alpine cloud-init
-# #apk add iproute2 ifupdown
-# echo "network: {config: disabled}" > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
-
-# # Start Cloud-Init on Boot
-# rc-update add cloud-init default
+# Start Cloud-Init on Boot
+rc-update add cloud-init default
 
 # enable automatically growing the partition
 cat > /etc/cloud/cloud.cfg.d/10_growpart.cfg << "EOF"
