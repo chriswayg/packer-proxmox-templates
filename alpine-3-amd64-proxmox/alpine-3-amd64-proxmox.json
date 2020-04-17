@@ -78,6 +78,7 @@
                 "y<enter>",
                 "<wait10><wait10>",
                 "rc-service sshd stop <enter>",
+                "mount /dev/sda2 /mnt <enter>",
                 "mount /dev/ /mnt/dev/ --bind <enter>",
                 "mount -t proc none /mnt/proc <enter>",
                 "mount -o bind /sys /mnt/sys <enter>",
@@ -89,10 +90,11 @@
                 "echo -e GA_PATH=\"/dev/vport1p1\" >> /etc/conf.d/qemu-guest-agent <enter>",
                 "rc-update add qemu-guest-agent <enter>",
                 "echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config <enter>",
-                "exit <enter>",
-                "umount /mnt/sys <enter>",
-                "umount /mnt/proc <enter>",
-                "umount /mnt/dev <enter>",
+                "exit <enter><wait>",
+                "umount /mnt/sys <enter><wait>",
+                "umount /mnt/proc <enter><wait>",
+                "umount /mnt/dev <enter><wait>",
+                "umount /mnt <enter>"
                 "reboot<enter>"
             ]
         }
