@@ -1,12 +1,9 @@
 set -eux
 
-# this configuration allows the default account to sudo su - without needing a password
+# this configuration allows the initial user account to sudo su - without needing a password
 
 # Install sudo
 apk add sudo shadow
-
-# Create Initial User
-adduser -D christian -G wheel
 
 # allow sudo without password
 echo "Defaults exempt_group=wheel" > /etc/sudoers
