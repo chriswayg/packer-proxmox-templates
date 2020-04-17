@@ -7,6 +7,7 @@ apk add cloud-init@testing
 # install dependencies
 apk add eudev
 apk add nettle@edge
+apk add gnutls@edge
 
 # needed for 'growpart'
 apk add cloud-utils@testing
