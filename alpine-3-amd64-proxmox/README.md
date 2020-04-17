@@ -9,7 +9,7 @@ Status: **working**
 - stores it as a Proxmox Template
 
 ### Configurations
-- passwordless sudo for default user 'deploy'
+- passwordless sudo for default user 'christian'
 - SSH public key installed for default user
 - display IP and SSH fingerprint before console login
 - automatically grow partition after resize by Proxmox (TODO check)

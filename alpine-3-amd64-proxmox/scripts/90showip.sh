@@ -16,7 +16,7 @@ fi
 
 cp /etc/issue-standard /etc/issue
 printf "ECDSA key fingerprint:\n$(ssh-keygen -l -f /etc/ssh/ssh_host_ecdsa_key.pub)\n" >> /etc/issue
-printf "\nSSH user: alpine     IP: $(ifconfig eth0 | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')\n\n" >> /etc/issue
+printf "\nSSH user: christian     IP: $(ifconfig eth0 | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')\n\n" >> /etc/issue
 
 EOF
 
