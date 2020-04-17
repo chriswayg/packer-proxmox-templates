@@ -1,7 +1,8 @@
 set -eux
 
 # Create Initial User
-adduser -D christian -G wheel
+addgroup christian
+adduser -D christian -G christian
 
 echo "Activate authorized key for SSH login and disable Password Authentication"
 mkdir -pv /home/christian/.ssh
