@@ -66,7 +66,7 @@
             "ssh_timeout": "20m",
             "iso_file": "local:iso/{{user `iso_filename`}}",
             "unmount_iso": true,
-            "boot_wait": "20s",
+            "boot_wait": "15s",
             "boot_command": [
                 "root<enter><wait>",
                 "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
@@ -74,14 +74,12 @@
                 "setup-alpine -f $PWD/answers<enter><wait5>",
                 "{{user `ssh_password`}}<enter><wait>",
                 "{{user `ssh_password`}}<enter><wait>",
-                "<wait10><wait10>",
+                "<wait10><wait5>",
                 "y<enter>",
-                "<wait10><wait10><wait10><wait10>",
+                "<wait10><wait10><wait10>",
                 "rc-service sshd stop<enter>",
                 "mount /dev/sda2 /mnt<enter>",
-                "echo 'PermitRootLogin yes' >> /mnt/etc/ssh/sshd_config<enter>",
-                "umount /mnt<enter>",
-                "reboot<enter>"
+                "echo 'PermitRootLogin yes' >> /mnt/etc/ssh/sshd_config<enter>"
             ]
         }
     ],
