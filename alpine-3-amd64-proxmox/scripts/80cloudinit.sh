@@ -4,8 +4,9 @@ apk add py3-zipp@edge
 apk add py3-importlib-metadata@edgecommunity
 apk add cloud-init@testing
 
-# install missing dependencies
+# install dependencies
 apk add eudev
+apk add nettle@edge
 
 # needed for 'growpart'
 apk add cloud-utils@testing
