@@ -79,7 +79,15 @@
                 "<wait10><wait10><wait10>",
                 "rc-service sshd stop<enter>",
                 "mount /dev/sda2 /mnt<enter>",
-                "echo 'PermitRootLogin yes' >> /mnt/etc/ssh/sshd_config<enter>"
+                "echo 'PermitRootLogin yes' >> /mnt/etc/ssh/sshd_config<enter>",
+                "echo '@edgecommunity http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /mnt/etc/apk/repositories",
+                "echo -e 'nameserver 8.8.8.8' > /mnt/etc/resolv.conf",
+                "mount /dev/ /mnt/dev/ --bind",
+                "mount -o remount,ro,bind /mnt/dev",
+                "chroot /mnt /bin/bash -l",
+                "apk add qemu-guest-agent@edgecommunity",
+                "echo -e GA_PATH=\"/dev/vport1p1\" >> /mnt/etc/conf.d/qemu-guest-agent",
+                "rc-update add qemu-guest-agent"    
             ]
         }
     ],
