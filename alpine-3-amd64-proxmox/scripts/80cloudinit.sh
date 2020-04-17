@@ -1,5 +1,7 @@
 set -eux
 
+apk add py3-zipp@edge
+apk add py3-importlib-metadata@edgecommunity
 apk add cloud-init@testing
 
 # install missing dependencies
