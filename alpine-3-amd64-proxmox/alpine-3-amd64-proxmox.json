@@ -94,8 +94,8 @@
                 "umount /mnt/sys <enter><wait>",
                 "umount /mnt/proc <enter><wait>",
                 "umount /mnt/dev <enter><wait>",
-                "umount /mnt <enter>"
-                "reboot<enter>"
+                "umount /mnt <enter>",
+                "reboot <enter>"
             ]
         }
     ],
