@@ -36,7 +36,6 @@
             "cores": "2",
             "os": "l26",
             "http_directory": "http",
-
             "node": "proxmox",
             "network_adapters": [
               {
