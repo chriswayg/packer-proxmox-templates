@@ -83,11 +83,12 @@
                 "echo '@edgecommunity http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /mnt/etc/apk/repositories<enter>",
                 "echo -e 'nameserver 8.8.8.8' > /mnt/etc/resolv.conf<enter>",
                 "mount /dev/ /mnt/dev/ --bind<enter>",
-                "mount -o remount,ro,bind /mnt/dev<enter>",
-                "chroot /mnt /bin/bash -l<enter>",
-                "apk add qemu-guest-agent@edgecommunity<enter>",
+                "mount -o remount,ro,bind /mnt/dev<enter><wait>",
+                "chroot /mnt /bin/bash -l<enter><wait>",
+                "apk update<enter><wait10>",
+                "apk add 'qemu-guest-agent@edgecommunity'<enter><wait>",
                 "echo -e GA_PATH=\"/dev/vport1p1\" >> /mnt/etc/conf.d/qemu-guest-agent<enter>",
-                "rc-update add qemu-guest-agent<enter>"    
+                "rc-update add qemu-guest-agent<enter><wait>"    
             ]
         }
     ],
