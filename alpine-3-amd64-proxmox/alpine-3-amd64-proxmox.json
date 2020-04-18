@@ -103,7 +103,7 @@
       {
         "type": "shell-local",
         "inline_shebang": "/bin/bash -e",
-        "inline": ["qm set {{user `vm_id`}} --scsihw virtio-scsi-pci --serial0 socket --vga serial0"]
+        "inline": ["qm set {{user `vm_id`}} --scsihw virtio-scsi-pci"]
       }
   ]
 }
