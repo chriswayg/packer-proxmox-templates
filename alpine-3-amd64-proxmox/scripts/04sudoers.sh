@@ -6,8 +6,7 @@ set -eux
 apk add sudo shadow
 
 # allow sudo without password
-echo "Defaults exempt_group=wheel" > /etc/sudoers
-echo "%wheel ALL=NOPASSWD:ALL" >> /etc/sudoers
+echo "christian  ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # allows ssh login without the user being locked
 # https://unix.stackexchange.com/questions/193066/how-to-unlock-account-for-public-key-ssh-authorization-but-not-for-password-aut
