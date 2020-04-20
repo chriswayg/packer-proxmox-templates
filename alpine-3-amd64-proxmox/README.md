@@ -12,7 +12,7 @@ Status: **working**
 - passwordless sudo for default user 'christian'
 - SSH public key installed for default user
 - display IP and SSH fingerprint before console login
-- automatically grow partition after resize by Proxmox (TODO check)
+- automatically grow partition after resize by Proxmox
 
 ### Instructions
 - [REAMDE with Prerequisites and Usage](https://github.com/chriswayg/packer-proxmox-templates/blob/master/README.md)
@@ -22,6 +22,9 @@ Status: **working**
 
 #### TODO
 - use `ansible-initial-server` instead of bash scripts to configure the server
+- waits on meta-data for 120 seconds - set cloud-init not to look for metadata
+- fix serial console
+
 
 ### License and Credits
 - Apache 2.0 Copyright 2019 Christian Wagner
