@@ -24,7 +24,7 @@
           "scripts/02sshd.sh",
           "scripts/04sudoers.sh",
           "scripts/70random.sh",
-          "scripts/80cloudinit.sh",
+          "scripts/80cloudutils.sh",
           "scripts/90showip.sh",
           "scripts/99minimize.sh"
         ]
