@@ -18,14 +18,7 @@
       {
         "type": "shell",
         "scripts": [
-          "scripts/00base.sh",
-          "scripts/01alpine.sh",
-          "scripts/01networking.sh",
-          "scripts/02sshd.sh",
-          "scripts/04sudoers.sh",
-          "scripts/80cloudutils.sh",
-          "scripts/90showip.sh",
-          "scripts/99minimize.sh"
+          "scripts/01networking.sh"
         ]
       }
     ],

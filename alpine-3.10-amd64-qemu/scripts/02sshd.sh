@@ -1,6 +1,6 @@
 set -eux
 
-# RootLogin without password was permitted in order to allow packer ssh access
+# RootLogin with a password was permitted in order to allow packer ssh access
 # to provision the system. Its removed here to make the server more secure.
 sed -i '/^PermitRootLogin yes/d' /etc/ssh/sshd_config
 

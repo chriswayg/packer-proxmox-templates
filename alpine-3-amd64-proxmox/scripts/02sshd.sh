@@ -1,5 +1,7 @@
 set -eux
 
+# MOVED TO ANSIBLE
+
 # Create Initial User
 addgroup christian
 adduser -D christian -G christian
@@ -15,9 +17,9 @@ chown -Rv christian:christian /home/christian/.ssh
 chmod -v 700 /home/christian/.ssh
 chmod -v 600 /home/christian/.ssh/authorized_keys
 
-# RootLogin without password was permitted in order to allow packer ssh access
+# RootLogin with a password was permitted in order to allow packer ssh access
 # to provision the system. Its removed here to make the server more secure.
-sed -i '/^PermitRootLogin no/d' /etc/ssh/sshd_config
+sed -i '/^PermitRootLogin yes/d' /etc/ssh/sshd_config
 
 # disable ssh password authentication
 sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config

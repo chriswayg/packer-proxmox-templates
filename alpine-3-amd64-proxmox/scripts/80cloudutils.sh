@@ -1,11 +1,13 @@
 set -eux
 
+# MOVED TO ANSIBLE
+
 # install packages
+apk add nano
 apk add nettle@edge     # A low-level cryptographic library (prereq for cloud-utils)
 apk add gnutls@edge     # A TLS protocol implementation (prereq for cloud-utils)
 apk add cloud-utils@testing # Useful set of utilities for interacting with a cloud (growpart)
 apk add e2fsprogs-extra # Ext2/3/4 filesystem extra utilities (resize2fs)
-apk add nano
 
 # creates a growpart script which will run on startup
 cat > /etc/local.d/05_auto_grow_partition.start << "EOF"

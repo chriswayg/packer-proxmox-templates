@@ -1,5 +1,7 @@
 set -ux
 
+# MOVED TO ANSIBLE
+
 apk upgrade -U --available
 
 source /etc/os-release

@@ -1,4 +1,7 @@
+set -eux
 # show SSH key fingerprint and IP address on console
+
+# MOVED TO ANSIBLE
 
 cp /etc/issue /etc/issue-standard
 
