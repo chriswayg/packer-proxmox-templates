@@ -12,9 +12,7 @@ TIMEZONEOPTS="-z UTC"
 PROXYOPTS="none"
 APKREPOSOPTS="http://nl.alpinelinux.org/alpine/v3.11/main
 http://nl.alpinelinux.org/alpine/v3.11/community
-@edge http://nl.alpinelinux.org/alpine/edge/main
-@testing http://nl.alpinelinux.org/alpine/edge/testing
-@edgecommunity http://dl-cdn.alpinelinux.org/alpine/edge/community"
+"
 SSHDOPTS="-c openssh"
 NTPOPTS="-c chrony"
 DISKOPTS="-s 0 -m sys /dev/sda"
