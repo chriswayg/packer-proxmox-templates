@@ -16,10 +16,10 @@
     "sensitive-variables": ["proxmox_password", "ssh_password" ],
     "provisioners": [
       {
-        "type": "shell",
-        "scripts": [
-          "scripts/01networking.sh"
-        ]
+        "type": "ansible",
+        "playbook_file": "./playbook/server-template.yml",
+        "extra_arguments": [ "-v", "--extra-vars", "vm_default_user={{user `vm_default_user`}}" ],
+        "ansible_env_vars": [ "ANSIBLE_CONFIG=./playbook/ansible.cfg", "ANSIBLE_FORCE_COLOR=True" ]
       }
     ],
     "builders": [
@@ -76,9 +76,9 @@
                 "mount -o bind /sys /mnt/sys <enter>",
                 "chroot /mnt /bin/sh -l <enter><wait>",
                 "echo '@edgecommunity http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories <enter>",
-                "echo -e 'nameserver 8.8.8.8' > /etc/resolv.conf <enter>",
+                "echo -e 'nameserver 1.1.1.1' > /etc/resolv.conf <enter>",
                 "apk update <enter><wait10>",
-                "apk add 'qemu-guest-agent@edgecommunity' <enter><wait>",
+                "apk add 'qemu-guest-agent@edgecommunity python3' <enter><wait>",
                 "echo -e GA_PATH=\"/dev/vport1p1\" >> /etc/conf.d/qemu-guest-agent <enter>",
                 "rc-update add qemu-guest-agent <enter>",
                 "echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config <enter>",
