@@ -75,7 +75,6 @@
                 "mount -t proc none /mnt/proc <enter>",
                 "mount -o bind /sys /mnt/sys <enter>",
                 "chroot /mnt /bin/sh -l <enter><wait>",
-                "echo '@edgecommunity http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories <enter>",
                 "echo -e 'nameserver 1.1.1.1' > /etc/resolv.conf <enter>",
                 "apk update <enter><wait10>",
                 "apk add 'qemu-guest-agent@edgecommunity' 'python' <enter><wait>",
