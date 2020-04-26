@@ -78,7 +78,7 @@
                 "echo '@edgecommunity http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories <enter>",
                 "echo -e 'nameserver 1.1.1.1' > /etc/resolv.conf <enter>",
                 "apk update <enter><wait10>",
-                "apk add 'qemu-guest-agent@edgecommunity' 'python3' <enter><wait>",
+                "apk add 'qemu-guest-agent@edgecommunity' 'python' <enter><wait>",
                 "echo -e GA_PATH=\"/dev/vport1p1\" >> /etc/conf.d/qemu-guest-agent <enter>",
                 "rc-update add qemu-guest-agent <enter>",
                 "echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config <enter>",
