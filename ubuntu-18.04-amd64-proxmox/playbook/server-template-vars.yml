@@ -2,7 +2,6 @@
 
 iserver_hostname: ubuntu1804-kvm
 iserver_sshkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDK1zNq5zsVbbN/gLdYqxlb5CROsR1dBNBgRFzzCJUL3ncU2dDHLHWi0L/FafwWt6MQ7vePu7catLDegY2fs1QB0KYvy21fD3+9ONBs7KcFlmuyqjLJ9VAoLWW5Tv3I9eZNgpd9k6CvYphKa1Owq43ye+quQRI4J+2nb7Zhl2WTQ1N2WBwZbmf0ErTHwa+mC7frTRBYh6ddyXp9KRULH89y/6cVpL6uQyFzIr6yWowUbJ8lX3fA9e7RAxkG76X54sMa65oq3Bog04ylJ4n/xZCXO449BZjAZHcJuDcFLXrwIo52t+Q6gIEnXInTiii26/ZWbnzzheggjkpQ77tCg03t christian@Chris-GigaMac.local"
-iserver_is_template: true
 
 iserver_repos:
   - deb http://repo.myloc.de/ubuntu/ bionic main restricted universe multiverse
@@ -13,11 +12,3 @@ iserver_repos:
   - deb-src http://repo.myloc.de/ubuntu/ bionic-backports main restricted universe multiverse
   - deb http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse
   - deb-src http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse
-
-iserver_packages:
-  - qemu-guest-agent  # needed by packer
-  - haveged           # prevent vm boot delays
-  - cloud-guest-utils # used by growpart
-  - curl
-  - psmisc
-  - net-tools
