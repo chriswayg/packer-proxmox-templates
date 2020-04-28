@@ -103,20 +103,22 @@ Enter Passwwords when prompted or provide them via ENV variables:
 
 #### Build environment
 
-The Packer templates have been tested with the exact versions of Packer and Ansible. If you use different versions, some details may need to be updated.
+The Packer templates have been tested with the following versions of Packer and Ansible. If you use different versions, some details may need to be updated.
 
 ```sh
 printf  "$(lsb_release -d) $(cat /etc/debian_version)\n" && \
   printf  "Proxmox $(pveversion)\n" &&
   packer version && \
   ansible --version |  sed -n '1p' && \
+  ansible --version |  sed -n '6p' && \
   j2 --version
 
-      Description:	Debian GNU/Linux 10 (buster) 10.3
-      Proxmox pve-manager/6.1-8/806edfe1 (running kernel: 5.3.18-3-pve)
-      Packer v1.5.5
-      ansible 2.7.10
-      j2cli 0.3.10, Jinja2 2.11.1
+        Description:	Debian GNU/Linux 10 (buster) 10.3
+        Proxmox pve-manager/6.1-8/806edfe1 (running kernel: 5.3.18-3-pve)
+        Packer v1.5.5
+        ansible 2.9.7
+          python version = 3.7.3 (default, Dec 20 2019, 18:57:59) [GCC 8.3.0]
+        j2cli 0.3.10, Jinja2 2.11.2
 ```
 
 **NOTE:** For security reasons it would be preferable to build the Proxmox template images on a local Proxmox staging server (for example in a VM) and then to transfer the Proxmox templates using migration onto the live server(s).
