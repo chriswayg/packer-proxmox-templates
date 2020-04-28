@@ -6,7 +6,7 @@
         "proxmox_password": "{{user `proxmox_password`}}",
         "iso_filename": "{{user `iso_filename`}}",
         "vm_id": "{{user `vm_id`}}",
-        "vm_name": "ubuntu1804-tmpl",
+        "vm_name": "ubuntu2004-tmpl",
         "template_description": "Ubuntu 20.04 x86_64 template built with packer ({{user `vm_ver`}}). Username: {{env `vm_default_user`}}",
         "vm_default_user": "{{env `vm_default_user`}}",
         "vm_memory": "{{env `vm_memory`}}",
