@@ -6,6 +6,9 @@
 # Debian/Ubuntu
 systemctl list-unit-files | grep -E 'autogrowpart|ssh-host-keygen'
 
+systemctl status ssh-host-keygen
+systemctl status autogrowpart
+
 # Alpine
 rc-status | grep 'local '
 ```
@@ -15,7 +18,7 @@ rc-status | grep 'local '
 - check disk space
 ```
 df -h
-reboot
+poweroff
 ```
 
 - increase disk size in Proxmox and check disk space again
@@ -27,6 +30,11 @@ df-h
 
 - create two clones in Proxmox
 - check fingerprints
+
+###
+- check ssh login
+
+`ssh -p 3XX22 christian@proxmox.lightinasia.site`
 
 ### Ansible Playbook
 
