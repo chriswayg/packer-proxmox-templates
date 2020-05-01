@@ -20,11 +20,6 @@ Status: **working**
 ### Docs
 - [Semi-Automatic Installation - Alpine Linux Documentation](https://beta.docs.alpinelinux.org/user-handbook/0.1a/Installing/manual.html)
 
-#### TODO
-- use `ansible-initial-server` instead of bash scripts to configure the server
-- waits on meta-data for 120 seconds - set cloud-init not to look for metadata
-- fix serial console
-
 
 ### License and Credits
 - Apache 2.0 Copyright 2019 Christian Wagner
