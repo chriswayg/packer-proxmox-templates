@@ -47,7 +47,7 @@ packer --version
 
 ```
 apt -y install python3-pip
-pip3 install ansible==2.7.10
+pip3 install ansible==2.9.7
 pip3 install py-bcrypt
 ```
 
@@ -59,7 +59,7 @@ pip3 install j2cli[yaml]
 
 ### Download the latest release of packer-proxmox-templates on the Proxmox server
 
-`wget https://github.com/chriswayg/packer-proxmox-templates/archive/v1.5.zip && unzip v1.5.zip && cd packer-proxmox-templates-*`
+`wget https://github.com/chriswayg/packer-proxmox-templates/archive/v1.7.zip && unzip v1.7.zip && cd packer-proxmox-templates-*`
 
 ### Usage
 
