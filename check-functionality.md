@@ -38,7 +38,7 @@ df-h
 
 ### Ansible Playbook
 
-- run the playbook again on a clone
+- run the playbook again separately on a clone
 
 ### Default VM Numbers
 - 10000 Debian 8
@@ -54,7 +54,7 @@ df-h
 - 46000 CoreOS/Flatcar
 - 47000 OpenBSD
 
-### Default Cloud VM Numbers
+### Default [Cloud VM](https://gist.github.com/chriswayg/43fbea910e024cbe608d7dcb12cb8466) Numbers
 - 51000 Debian 8
 - 51100 Debian 9
 - 51200 Debian 10
