@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# 'vm_default_user' and 'vm_memory' will be sourced from build.conf
+# 'vm_default_user', 'vm_memory', 'proxmox_host' and others will will be sourced from build.conf
 # and passed as environment variables to Packer
 set -o allexport
 build_conf="build.conf"
