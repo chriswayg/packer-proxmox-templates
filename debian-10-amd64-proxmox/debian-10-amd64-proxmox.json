@@ -4,6 +4,7 @@
         "proxmox_url": "{{env `proxmox_url`}}",
         "proxmox_username": "root@pam",
         "proxmox_password": "{{user `proxmox_password`}}",
+        "proxmox_host": "{{env `proxmox_host`}}",
         "iso_filename": "{{user `iso_filename`}}",
         "vm_id": "{{user `vm_id`}}",
         "vm_name": "deb10-tmpl",
@@ -40,7 +41,7 @@
             "cores": "2",
             "os": "l26",
             "http_directory": "http",
-            "node": "{{env `proxmox_host`}}",
+            "node": "{{user `proxmox_host`}}",
             "network_adapters": [
               {
                 "model": "virtio",
