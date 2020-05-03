@@ -61,7 +61,7 @@
             "ssh_username": "{{user `ssh_username`}}",
             "ssh_password": "{{user `ssh_password`}}",
             "ssh_timeout": "15m",
-            "ssh_host": "10.10.10.230",
+            "ssh_host": "10.10.10.252",
             "qemu_agent": false,
             "iso_file": "local:iso/{{user `iso_filename`}}",
             "unmount_iso": true,

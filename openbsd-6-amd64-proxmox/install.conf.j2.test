@@ -1,5 +1,5 @@
 System hostname = openbsd
-IPv4 address for vio0 = 10.10.10.230
+IPv4 address for vio0 = 10.10.10.252
 Default IPv4 route = 10.10.10.1
  DNS nameservers = 1.1.1.1 1.0.0.1
 Password for root account = {{ env("password_hash1") }}
