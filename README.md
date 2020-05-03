@@ -9,10 +9,9 @@
 
 #### [OpenBSD ](https://www.openbsd.org/index.html) 6 [Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/openbsd-6-amd64-proxmox) using Packer Proxmox Builder to build a Proxmox VM image template
 
-#### [Alpine](https://wiki.alpinelinux.org/wiki/Alpine_Linux:Releases)  Linux [Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/alpine3.10-qemu) using QEMU Builder to build a KVM image usable in Openstack or Proxmox
+#### [Alpine](https://wiki.alpinelinux.org/wiki/Alpine_Linux:Releases)  Linux [Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/alpine-3-amd64-proxmox) using Packer Proxmox Builder to build a Proxmox VM image template
 
-#### [Alpine](https://wiki.alpinelinux.org/wiki/Alpine_Linux:Releases)  Linux [Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/alpine-3.10-x86_64-proxmox) using Packer Proxmox Builder to build a Proxmox VM image template
-
+#### [Alpine](https://wiki.alpinelinux.org/wiki/Alpine_Linux:Releases)  Linux [Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/alpine-3-amd64-qemu) using QEMU Builder to build a KVM image usable in Openstack or Proxmox
 
 ## Proxmox KVM image templates
 
