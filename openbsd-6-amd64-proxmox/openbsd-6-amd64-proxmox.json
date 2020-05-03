@@ -41,7 +41,7 @@
             "os": "other",
             "http_directory": "http",
 
-            "node": "proxmox",
+            "node": "{{env `proxmox_host`}}",
             "network_adapters": [
               {
                 "model": "virtio",

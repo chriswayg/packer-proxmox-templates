@@ -41,7 +41,7 @@
             "os": "l26",
             "http_directory": "http",
 
-            "node": "proxmox",
+            "node": "{{env `proxmox_host`}}",
             "network_adapters": [
               {
                 "model": "virtio",
