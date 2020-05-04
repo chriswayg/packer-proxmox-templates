@@ -20,7 +20,7 @@
         "type": "ansible",
         "playbook_file": "./playbook/server-template.yml",
         "extra_arguments": [
-          "-v",
+          "-vvvv",
           "--extra-vars", "vm_default_user={{user `vm_default_user`}}",
           "--tags", "all,is_template"
         ],
