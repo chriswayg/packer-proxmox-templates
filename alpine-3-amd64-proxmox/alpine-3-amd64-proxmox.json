@@ -3,16 +3,16 @@
     "variables": {
         "proxmox_url": "{{env `proxmox_url`}}",
         "proxmox_username": "root@pam",
-        "proxmox_password": "{{user `proxmox_password`}}",
+        "proxmox_password": "{{env `proxmox_password`}}",
         "proxmox_host": "{{env `proxmox_host`}}",
-        "iso_filename": "{{user `iso_filename`}}",
-        "vm_id": "{{user `vm_id`}}",
+        "iso_filename": "{{env `iso_filename`}}",
+        "vm_id": "{{env `vm_id`}}",
         "vm_name": "alpine3-tmpl",
-        "template_description": "Alpine Linux 3.11 x86_64 template built with packer ({{user `vm_ver`}}). Username: {{env `vm_default_user`}}",
+        "template_description": "Alpine Linux 3.11 x86_64 template built with packer ({{env `vm_ver`}}). Username: {{env `vm_default_user`}}",
         "vm_default_user": "{{env `vm_default_user`}}",
         "vm_memory": "{{env `vm_memory`}}",
         "ssh_username": "root",
-        "ssh_password": "{{user `ssh_password`}}"
+        "ssh_password": "{{env `ssh_password`}}"
     },
     "sensitive-variables": ["proxmox_password", "ssh_password" ],
     "provisioners": [
