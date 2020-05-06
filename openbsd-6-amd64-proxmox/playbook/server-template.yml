@@ -3,18 +3,8 @@
 # Packer will always connect with the user given in the json config for this provisioner.
 # https://www.packer.io/docs/provisioners/ansible.html
 
-# TODO: For unclear reasons, I could only get it to work with the root user in Packer
-# 'become' in playbook or role tasks seem to be ignored by Packer Ansible
-
-- name: Prepare OpenBSD for Ansible.
-  hosts: all
-  gather_facts: False
-  tasks:
-    - name: Ensure, that python is installed.
-      raw: pkg_add -z python-2.7
-
-    - name: Ensure, that python is linked to /usr/bin/python.
-      raw: ln -sf /usr/local/bin/python2.7 /usr/bin/python
+# TODO: For unclear reasons, I could only get it to work with the root user in Packer.
+# 'become' in playbook or role tasks seem to be ignored by Packer Ansible.
 
 - name: Initial configuration of a server.
   hosts: all
@@ -25,3 +15,4 @@
       vars:
         iserver_user: "{{ vm_default_user }}"
         iserver_become: su
+        iserver_bootstrap_python: True
