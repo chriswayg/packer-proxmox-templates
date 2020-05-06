@@ -122,14 +122,17 @@ fi
 
 vm_ver=$(git describe --tags)
 
+
 ## Call Packer build with the provided data
 case $target in
     proxmox)
         printf "\n==> Build and create a Proxmox template.\n\n"
+        ansible_verbosity="-v"
         packer build $template_name
         ;;
     debug)
         printf "\n==> DEBUG: Build and create a Proxmox template.\n\n"
+        ansible_verbosity="-vvvv"
         PACKER_LOG=1 packer build -debug -on-error=ask $template_name
         ;;
     *)

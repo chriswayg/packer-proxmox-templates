@@ -12,7 +12,8 @@
         "vm_default_user": "{{env `vm_default_user`}}",
         "vm_memory": "{{env `vm_memory`}}",
         "ssh_username": "root",
-        "ssh_password": "{{env `ssh_password`}}"
+        "ssh_password": "{{env `ssh_password`}}",
+        "ansible_verbosity":"{{env `ansible_verbosity`}}"
     },
     "sensitive-variables": ["proxmox_password", "ssh_password" ],
     "provisioners": [
@@ -20,9 +21,10 @@
         "type": "ansible",
         "playbook_file": "./playbook/server-template.yml",
         "extra_arguments": [
-          "-vvvv",
+          "{{user `ansible_verbosity`}}",
           "--extra-vars", "vm_default_user={{user `vm_default_user`}}",
-          "--tags", "all,is_template"
+          "--tags", "all,is_template",
+          "--skip-tags", "debuntu,alpine"
         ],
         "ansible_env_vars": [ "ANSIBLE_CONFIG=./playbook/ansible.cfg", "ANSIBLE_FORCE_COLOR=True" ]
       }
