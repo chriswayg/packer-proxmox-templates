@@ -1,5 +1,7 @@
 # Check the functionality of features
 
+###
+
 ### Check that services are enabled
 
 ```
@@ -8,10 +10,18 @@ systemctl list-unit-files | grep -E 'autogrowpart|ssh-host-keygen'
 
 systemctl status ssh-host-keygen
 systemctl status autogrowpart
+pstree
 
 # Alpine
 rc-status | grep 'local '
+pstree
+
+# OpenBSD
+rcctl ls on
+rcctl ls started
+pstree
 ```
+
 
 ### Check that autogrow partition works (all OS)
 
@@ -26,10 +36,11 @@ poweroff
 df-h
 ```
 
-### Check ssh-host-keygen
+### Check ssh-host-keygen and fingerprint & IP display
 
 - create two clones in Proxmox
-- check fingerprints
+- check fingerprints and IP before login on console
+
 
 ###
 - check ssh login
