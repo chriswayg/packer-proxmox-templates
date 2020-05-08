@@ -13,8 +13,8 @@
     - name: Ensure, that python is installed.
       raw: pkg_add -z python-2.7
 
-    - name: Ensure, that python 2 is linked to /usr/bin/python.
-      raw: ln -sf /usr/local/bin/python2.7 /usr/bin/python && ln -sf /usr/local/bin/python2.7 /usr/bin/python2
+    - name: Ensure that python 2 is linked to /usr/bin/python.
+      raw: ln -sf /usr/local/bin/python2.7 /usr/bin/python
 
 - name: Initial configuration of a server.
   hosts: all
