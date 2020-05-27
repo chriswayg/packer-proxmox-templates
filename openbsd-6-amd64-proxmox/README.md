@@ -1,4 +1,4 @@
-## OpenBSD 6.6 Packer Template using [Packer Proxmox Builder](https://www.packer.io/docs/builders/proxmox.html) to build a Proxmox KVM image template
+## OpenBSD 6.7 Packer Template using [Packer Proxmox Builder](https://www.packer.io/docs/builders/proxmox.html) to build a Proxmox KVM image template
 
 Status: **working well**
 
