@@ -11,10 +11,7 @@
   gather_facts: False
   tasks:
     - name: Ensure, that python is installed.
-      raw: pkg_add -z python-2.7
-
-    - name: Ensure that python 2 is linked to /usr/bin/python.
-      raw: ln -sf /usr/local/bin/python2.7 /usr/bin/python
+      raw: pkg_add -Iz python3
 
 - name: Initial configuration of a server.
   hosts: all
