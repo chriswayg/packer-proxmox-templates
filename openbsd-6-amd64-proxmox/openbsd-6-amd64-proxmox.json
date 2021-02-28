@@ -3,9 +3,12 @@
     "variables": {
         "ansible_verbosity": "{{env `ansible_verbosity`}}",
         "proxmox_url": "{{env `proxmox_url`}}",
-        "proxmox_username": "root@pam",
+        "proxmox_username": "{{env `proxmox_user`}}@pam",
         "proxmox_password": "{{env `proxmox_password`}}",
         "proxmox_host": "{{env `proxmox_host`}}",
+        "proxmox_net_bridge": "{{env `proxmox_net_bridge`}}",
+        "proxmox_storage_vm": "{{env `proxmox_storage_vm`}}",
+        "proxmox_storage_iso": "{{env `proxmox_storage_iso`}}",
         "iso_filename": "{{env `iso_filename`}}",
         "vm_id": "{{env `vm_id`}}",
         "vm_name": "openbsd6-tmpl",
@@ -49,14 +52,14 @@
             "network_adapters": [
               {
                 "model": "virtio",
-                "bridge": "vmbr1"
+                "bridge": "{{user `proxmox_net_bridge`}}"
               }
             ],
             "disks": [
               {
                 "type": "scsi",
                 "disk_size": "8G",
-                "storage_pool": "local",
+                "storage_pool": "{{user `proxmox_storage_vm`}}",
                 "storage_pool_type": "directory",
                 "format": "qcow2"
               }
@@ -66,7 +69,7 @@
             "ssh_timeout": "15m",
             "ssh_host": "10.10.10.252",
             "qemu_agent": false,
-            "iso_file": "local:iso/{{user `iso_filename`}}",
+            "iso_file": "{{user `proxmox_storage_iso`}}:iso/{{user `iso_filename`}}",
             "unmount_iso": true,
             "boot_wait": "30s",
             "boot_command": [
