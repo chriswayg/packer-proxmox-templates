@@ -1,6 +1,7 @@
 {
     "description": "Build OpenBSD 6 x86_64 Proxmox template",
     "variables": {
+        "ansible_verbosity": "{{env `ansible_verbosity`}}",
         "proxmox_url": "{{env `proxmox_url`}}",
         "proxmox_username": "root@pam",
         "proxmox_password": "{{env `proxmox_password`}}",
@@ -12,8 +13,7 @@
         "vm_default_user": "{{env `vm_default_user`}}",
         "vm_memory": "{{env `vm_memory`}}",
         "ssh_username": "root",
-        "ssh_password": "{{env `ssh_password`}}",
-        "ansible_verbosity":"{{env `ansible_verbosity`}}"
+        "ssh_password": "{{env `ssh_password`}}"
     },
     "sensitive-variables": ["proxmox_password", "ssh_password" ],
     "provisioners": [
