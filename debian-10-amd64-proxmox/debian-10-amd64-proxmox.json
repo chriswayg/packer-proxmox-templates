@@ -1,6 +1,7 @@
 {
     "description": "Build Debian 10 (buster) x86_64 Proxmox template",
     "variables": {
+        "ansible_verbosity": "{{env `ansible_verbosity`}}",
         "proxmox_url": "{{env `proxmox_url`}}",
         "proxmox_username": "root@pam",
         "proxmox_password": "{{env `proxmox_password`}}",
