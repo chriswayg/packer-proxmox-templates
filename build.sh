@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 # Many variables are sourced from build.conf and passed as environment variables to Packer.
-# The vm_default_user name will be used by Packer and Ansible.
+# The default_vm_user name will be used by Packer and Ansible.
 # (j2 is a better solution than 'envsubst' which messes up '$' in the text unless you specify each variable)
-# vm_default_user
+# default_vm_user
 # vm_memory
 # proxmox_host
 # iso_filename
@@ -37,14 +37,20 @@ function die_var_unset {
     exit 1
 }
 
+## check that prerequisites are installed
+[[ $(packer --version)  ]] || { echo "Please install 'Packer'"; exit 1; }
+[[ $(ansible --version)  ]] || { echo "Please install 'Ansible'"; exit 1; }
+[[ $(j2 --version)  ]] || { echo "Please install 'j2cli'"; exit 1; }
+
 ## check that data in build_conf is complete
 [[ -f $build_conf ]] || { echo "User variables file '$build_conf' not found."; exit 1; }
 source $build_conf
 
-[[ -z "$vm_default_user" ]] && die_var_unset "vm_default_user"
+[[ -z "$default_vm_id" ]] && die_var_unset "default_vm_id"
+[[ -z "$default_vm_user" ]] && die_var_unset "default_vm_user"
 [[ -z "$vm_memory" ]] && die_var_unset "vm_memory"
 [[ -z "$proxmox_host" ]] && die_var_unset "proxmox_host"
-[[ -z "$default_vm_id" ]] && die_var_unset "default_vm_id"
+[[ -z "$proxmox_user" ]] && die_var_unset "proxmox_user"
 [[ -z "$iso_url" ]] && die_var_unset "iso_url"
 [[ -z "$iso_sha256_url" ]] && die_var_unset "iso_sha256_url"
 [[ -z "$iso_directory" ]] && die_var_unset "iso_directory"
@@ -55,17 +61,12 @@ target=${1:-}
 
 ## VM ID for new VM template (overrides default from build.conf)
 vm_id=${2:-$default_vm_id}
-printf "\n==> Using VM ID: $vm_id with default user: '$vm_default_user'\n"
+printf "\n==> Using VM ID: $vm_id with default user: '$default_vm_user'\n"
 
 ## template_name is based on name of current directory, check it exists
 template_name="${PWD##*/}.json"
 
 [[ -f $template_name ]] || { echo "Template (${template_name}) not found."; exit 1; }
-
-## check that prerequisites are installed
-[[ $(packer --version)  ]] || { echo "Please install 'Packer'"; exit 1; }
-[[ $(ansible --version)  ]] || { echo "Please install 'Ansible'"; exit 1; }
-[[ $(j2 --version)  ]] || { echo "Please install 'j2cli'"; exit 1; }
 
 ## If passwords are not set in env variable, prompt for them
 [[ -z "$proxmox_password" ]] && printf "\n" && read -s -p "Existing PROXMOX Login Password: " proxmox_password && printf "\n"

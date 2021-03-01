@@ -9,8 +9,8 @@
         "iso_filename": "{{env `iso_filename`}}",
         "vm_id": "{{env `vm_id`}}",
         "vm_name": "alpine3-tmpl",
-        "template_description": "Alpine Linux 3.11 x86_64 template built with packer ({{env `vm_ver`}}). Username: {{env `vm_default_user`}}",
-        "vm_default_user": "{{env `vm_default_user`}}",
+        "template_description": "Alpine Linux 3.11 x86_64 template built with packer ({{env `vm_ver`}}). Username: {{env `default_vm_user`}}",
+        "default_vm_user": "{{env `default_vm_user`}}",
         "vm_memory": "{{env `vm_memory`}}",
         "ssh_username": "root",
         "ssh_password": "{{env `ssh_password`}}"
@@ -22,7 +22,7 @@
         "playbook_file": "./playbook/server-template.yml",
         "extra_arguments": [
           "{{user `ansible_verbosity`}}",
-          "--extra-vars", "vm_default_user={{user `vm_default_user`}}",
+          "--extra-vars", "default_vm_user={{user `default_vm_user`}}",
           "--tags", "all,is_template",
           "--skip-tags", "debuntu,openbsd"
         ],
