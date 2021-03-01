@@ -50,7 +50,6 @@ source $build_conf
 [[ -z "$default_vm_user" ]] && die_var_unset "default_vm_user"
 [[ -z "$vm_memory" ]] && die_var_unset "vm_memory"
 [[ -z "$proxmox_host" ]] && die_var_unset "proxmox_host"
-[[ -z "$proxmox_user" ]] && die_var_unset "proxmox_user"
 [[ -z "$iso_url" ]] && die_var_unset "iso_url"
 [[ -z "$iso_sha256_url" ]] && die_var_unset "iso_sha256_url"
 [[ -z "$iso_directory" ]] && die_var_unset "iso_directory"
