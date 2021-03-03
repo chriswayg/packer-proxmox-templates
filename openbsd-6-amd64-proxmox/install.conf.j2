@@ -1,6 +1,6 @@
 System hostname = openbsd
-IPv4 address for vio0 = 10.10.10.252
-Default IPv4 route = 10.10.10.1
+IPv4 address for vio0 = {{ env("vm_default_ip") }}
+Default IPv4 route = {{ env("vm_default_gw") }}
 DNS nameservers = 1.1.1.1 1.0.0.1
 Password for root account = {{ env("password_hash1") }}
 Do you expect to run the X Window System = no
