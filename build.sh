@@ -24,7 +24,7 @@ build_conf="build.conf"
 source ../functions.sh
 
 ## check that data in build_conf is complete
-[[ -f $build_conf ]] || { echo "User variables file '$build_conf' not found."; exit 1; }
+[[ -f $build_conf ]] || { echo "User variables file '$build_conf' not found. Please create it using build.conf.org as an example"; exit 1; }
 source $build_conf
 
 [[ -z "$default_vm_id" ]] && die_var_unset "default_vm_id"

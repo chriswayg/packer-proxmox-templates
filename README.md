@@ -73,8 +73,8 @@ cd openbsd-6-amd64-proxmox
 
 ```
 
-- edit `build.conf`, including the default user and especially the Proxmox URL and the ISO download links for the latest distro version
-- edit `playbook/server-template-vars.yml`, especially the SSH Key & regional repositories
+- copy `build.conf.org` to `build.conf`, then edit it, including the default user and especially the Proxmox URL and the ISO download links for the latest distro version
+- copy `playbook/server-template-vars.yml.org` to `playbook/server-template-vars.yml`, then edit it, especially the SSH Key & regional repositories
 
 ```sh
 ../build.sh proxmox

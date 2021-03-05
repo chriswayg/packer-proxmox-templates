@@ -27,3 +27,5 @@ install.conf
 
 # others
 cloud-config.yml
+build.conf
+server-template-vars.yml
