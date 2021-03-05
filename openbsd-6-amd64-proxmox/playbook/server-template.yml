@@ -23,5 +23,5 @@
   roles:
     - role: ansible-initial-server
       vars:
-        iserver_user: "{{ vm_default_user }}"
+        iserver_user: "{{ default_vm_user }}"
         iserver_become: su

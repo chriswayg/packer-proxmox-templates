@@ -17,4 +17,4 @@ Status: **working well**
 
 ### Instructions
 
-- [REAMDE with Prerequisites and Usage](https://github.com/chriswayg/packer-proxmox-templates/blob/master/README.md)
+- [README with Prerequisites and Usage](https://github.com/chriswayg/packer-proxmox-templates/blob/master/README.md)

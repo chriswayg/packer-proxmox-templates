@@ -26,26 +26,22 @@
 
 ### Check Prerequisites
 
-The build script which will run the packer template is *configured to run on the Proxmox server*. Thus the following pre-requisites should be installed on the Proxmox server:
+The build script which will run the packer template is can be run on the ProxMox server, or from a standalone administration system. Thus the following pre-requisites should be installed:
 
-- Ensure that [Proxmox 6](https://www.proxmox.com/en/downloads) is installed
-- Set up a DHCP server on `vmbr1`, for example `isc-dhcp-server`  (see section [DHCP](https://github.com/chriswayg/ansible-proxmox/blob/master/tasks/main.yml) in the Proxmox Ansible role).
+- Ensure that [Proxmox 6](https://www.proxmox.com/en/downloads) is installed on a system that the templates will live on.
+- Set up a DHCP server that is accessable from the Proxmox network interface, for example `isc-dhcp-server`  (see section [DHCP](https://github.com/chriswayg/ansible-proxmox/blob/master/tasks/main.yml) in the Proxmox Ansible role).
 
-```
-printf  "Proxmox $(pveversion)\n"
-```
-
-- Install [Packer](https://www.packer.io/downloads.html) on the Proxmox server
+- Install [Packer](https://www.packer.io/downloads.html) on the Proxmox server or your administration system
 
 ```
 apt -y install unzip
-packer_ver=1.5.5
+packer_ver=1.7.0
 wget https://releases.hashicorp.com/packer/${packer_ver}/packer_${packer_ver}_linux_amd64.zip
 sudo unzip packer_${packer_ver}_linux_amd64.zip -d /usr/local/bin
 packer --version
 ```
 
-- Install [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) on the Proxmox server
+- Install [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) on the Proxmox server or your administration system
 
 ```
 apt -y install python3-pip
@@ -53,19 +49,19 @@ pip3 install ansible==2.9.7
 pip3 install py-bcrypt
 ```
 
-- Install [j2cli](https://github.com/kolypto/j2cli) on the Proxmox server
+- Install [j2cli](https://github.com/kolypto/j2cli) on the Proxmox server or your administration system
 
 ```
 pip3 install j2cli[yaml]
 ```
 
-### Download the latest tagged release of packer-proxmox-templates onto the Proxmox server
+### Download the latest tagged release of packer-proxmox-templates onto the Proxmox server or your administration system
 
 `wget https://github.com/chriswayg/packer-proxmox-templates/archive/v1.7.zip && unzip v1.7.zip && cd packer-proxmox-templates-*`
 
 ### Usage
 
-On the Proxmox Server with Packer installed:
+On the Proxmox Server or administration system with Packer installed:
 
 ```
 cd OSname-xy-amd64-proxmox
@@ -115,14 +111,13 @@ printf  "$(lsb_release -d) $(cat /etc/debian_version)\n" && \
   ansible --version |  sed -n '6p' && \
   j2 --version
 
-        Description:	Debian GNU/Linux 10 (buster) 10.3
-        Proxmox pve-manager/6.1-8/806edfe1 (running kernel: 5.3.18-3-pve)
-        Packer v1.5.5
+        Description:    Ubuntu 18.04.5 LTS buster/sid
+        pveversion: command not found
+        Proxmox
+        Packer v1.7.0
         ansible 2.9.7
-          python version = 3.7.3 (default, Dec 20 2019, 18:57:59) [GCC 8.3.0]
-        j2cli 0.3.10, Jinja2 2.11.2
+          python version = 3.6.9 (default, Jan 26 2021, 15:33:00) [GCC 8.4.0]
+        j2cli 0.3.10, Jinja2 2.11.1
 ```
 
 **NOTE:** For security reasons it would be preferable to build the Proxmox template images on a local Proxmox staging server (for example in a VM) and then to transfer the Proxmox templates using migration onto the live server(s).
-
-It should also be possible to use Packer remotely and to control VM creation remotely via Ansible. The Packer template and the scripts would have to be modified accordingly. If you have it working remotely, please make a pull request.
