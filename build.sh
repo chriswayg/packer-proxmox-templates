@@ -102,10 +102,11 @@ else
   download_iso "$iso_directory"
 fi
 
+mkdir -p ../roles
 printf "\n==> Downloading latest Ansible role\n\n"
 # will always overwrite role to get latest version from Github
-ansible-galaxy install --force -p playbook/roles -r playbook/requirements.yml
-[[ -f playbook/roles/ansible-initial-server/tasks/main.yml ]] || { echo "Ansible role not found."; exit 1; }
+ansible-galaxy install --force -p ../roles -r playbook/requirements.yml
+[[ -f ..//roles/ansible-initial-server/tasks/main.yml ]] || { echo "Ansible role not found."; exit 1; }
 
 mkdir -p http
 
