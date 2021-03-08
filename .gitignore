@@ -29,3 +29,4 @@ install.conf
 cloud-config.yml
 build.conf
 server-template-vars.yml
+custom_playbook.yml

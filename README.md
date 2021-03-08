@@ -75,6 +75,7 @@ cd openbsd-6-amd64-proxmox
 
 - copy `build.conf.org` to `build.conf`, then edit it, including the default user and especially the Proxmox URL and the ISO download links for the latest distro version
 - copy `playbook/server-template-vars.yml.org` to `playbook/server-template-vars.yml`, then edit it, especially the SSH Key & regional repositories
+- copy `playbook/custom_playbook.yml.org` to `playbook/custom_playbook.yml`, then edit it, this can be used to run custom Ansible roles or task
 
 ```sh
 ../build.sh proxmox

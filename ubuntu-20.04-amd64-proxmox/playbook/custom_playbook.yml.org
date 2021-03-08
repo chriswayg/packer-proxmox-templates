@@ -1,0 +1,14 @@
+- name: Custom Playbook YML
+  hosts: all
+  pre_tasks:
+    - name: A Pre Task here if you wish
+      ansible.builtin.debug:
+        msg: Hi
+  roles:
+    - role: A whole different role can be run here, place in roles directory next to ansible-initial-server
+      ansible.builtin.debug:
+        msg: Hi
+  tasks:
+    - name: Place task here
+      ansible.builtin.debug:
+        msg: Hi

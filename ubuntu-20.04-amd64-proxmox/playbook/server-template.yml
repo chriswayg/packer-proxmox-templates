@@ -14,3 +14,10 @@
     - role: ansible-initial-server
       vars:
         iserver_user: "{{ default_vm_user }}"
+  tasks:
+    - name: Determine if custom playbook exists
+      local_action: stat path=custom_playbook.yml
+      register: lpe
+- include: custom_playbook.yml
+  when: lpe.stat.exists
+  
