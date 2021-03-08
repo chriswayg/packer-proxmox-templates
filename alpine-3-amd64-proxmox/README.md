@@ -15,7 +15,7 @@ Status: **working**
 - automatically grow partition after resize by Proxmox
 
 ### Instructions
-- [REAMDE with Prerequisites and Usage](https://github.com/chriswayg/packer-proxmox-templates/blob/master/README.md)
+- [README with Prerequisites and Usage](https://github.com/chriswayg/packer-proxmox-templates/blob/master/README.md)
 
 ### Docs
 - [Semi-Automatic Installation - Alpine Linux Documentation](https://beta.docs.alpinelinux.org/user-handbook/0.1a/Installing/manual.html)

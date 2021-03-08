@@ -41,10 +41,10 @@ d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
 
 ### Account setup
-# Default user '{{ env("vm_default_user") }}'
+# Default user '{{ env("default_vm_user") }}'
 d-i passwd/root-login boolean true
-d-i passwd/user-fullname string {{ env("vm_default_user") }}
-d-i passwd/username string {{ env("vm_default_user") }}
+d-i passwd/user-fullname string {{ env("default_vm_user") }}
+d-i passwd/username string {{ env("default_vm_user") }}
 d-i user-setup/encrypt-home boolean false
 # Encrypted root and user passwords
 d-i passwd/root-password-crypted password {{ env("password_hash1") }}
@@ -73,7 +73,7 @@ d-i grub-installer/bootdev string /dev/sda
 d-i preseed/late_command string sed -i '/^deb cdrom:/s/^/#/' /target/etc/apt/sources.list
 # Enable passwordless sudo for default user and permit root login for Packer Ansible provisioner to work
 d-i preseed/late_command string \
-    echo '{{ env("vm_default_user") }}  ALL=(ALL:ALL) NOPASSWD: ALL' >> /target/etc/sudoers.d/default-user && chmod 440 /target/etc/sudoers.d/default-user && \
+    echo '{{ env("default_vm_user") }}  ALL=(ALL:ALL) NOPASSWD: ALL' >> /target/etc/sudoers.d/default-user && chmod 440 /target/etc/sudoers.d/default-user && \
     sed -i "/^#PermitRootLogin/c\PermitRootLogin yes" /target/etc/ssh/sshd_config
 
 ### Finishing up the installation

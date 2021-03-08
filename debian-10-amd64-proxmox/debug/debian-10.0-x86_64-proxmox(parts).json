@@ -3,7 +3,7 @@
     "provisioners": [
         {
             "type": "shell",
-            "execute_command": "echo '{{user `vm_default_user`}}' | sudo -S sh '{{.Path}}'",
+            "execute_command": "echo '{{user `default_vm_user`}}' | sudo -S sh '{{.Path}}'",
             "scripts": [
                 "scripts/00base.sh",
                 "scripts/01networking.sh",
