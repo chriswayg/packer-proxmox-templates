@@ -1,0 +1,94 @@
+## Kickstart commands
+install
+cdrom
+lang en_US.UTF-8
+keyboard us
+network --bootproto=dhcp --noipv6 --onboot=on --device=eth0
+rootpw --plaintext {{ env("ssh_password") }}
+firewall --disabled
+selinux --permissive
+timezone UTC
+unsupported_hardware
+bootloader --timeout=1 --location=mbr --append="net.ifnames=0 biosdevname=0"
+text
+skipx
+zerombr
+clearpart --all --initlabel
+autopart --nohome --nolvm
+auth --enableshadow --passalgo=sha512 --kickstart
+firstboot --disabled
+reboot --eject
+user --name={{ env("vm_default_user") }} --plaintext --password {{ env("ssh_password") }}
+
+%packages --nobase --ignoremissing --excludedocs --instLangs=en_US.utf8
+qemu-guest-agent
+openssh-clients
+sudo
+selinux-policy-devel
+curl
+wget
+nfs-utils
+net-tools
+tar
+bzip2
+deltarpm
+rsync
+-fprintd-pam
+-intltool
+
+# unnecessary firmware
+-*firmware
+-microcode_ctl
+%end
+
+
+## Post-installation scripts.
+%post
+# Enable passwordless sudo for default user and permit root login for Packer Ansible provisioner to work
+echo 'Defaults:{{ env("vm_default_user") }} !requiretty' > /etc/sudoers.d/default-user
+echo '{{ env("vm_default_user") }}  ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/default-user
+chmod 440 /etc/sudoers.d/default-user
+
+
+
+echo '--> Disabling swap.'
+swapoff -a
+
+echo '--> Removing swap from /etc/fstab.'
+# Use `lsblk` to get the UUIDs and filesystems for the partitions used
+# in the 'plain' partition type (/boot on sda1, / on sda2, swap on sda3).
+BOOT_FS="$(lsblk -o FSTYPE -n /dev/sda1)"
+BOOT_UUID="$(lsblk -o UUID -n /dev/sda1)"
+ROOT_FS="$(lsblk -o FSTYPE -n /dev/sda3)"
+ROOT_UUID="$(lsblk -o UUID -n /dev/sda3)"
+cat > /etc/fstab <<-EOF
+UUID=${BOOT_UUID}	/boot	${BOOT_FS}	defaults	0 0
+UUID=${ROOT_UUID}	/	${ROOT_FS}	defaults	0 1
+EOF
+
+
+
+
+# Since we disable consistent network naming, we need to make sure the eth0
+# configuration file is in place so it will come up.
+# Delete other network configuration first because RHEL/C7 networking will not
+# restart successfully if there are configuration files for devices that do not
+# exist.
+rm -f /etc/sysconfig/network-scripts/ifcfg-e*
+cat > /etc/sysconfig/network-scripts/ifcfg-eth0 << _EOF_
+TYPE=Ethernet
+PROXY_METHOD=none
+BROWSER_ONLY=no
+BOOTPROTO=dhcp
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=eui64
+NAME=eth0
+DEVICE=eth0
+ONBOOT=yes
+_EOF_
+%end

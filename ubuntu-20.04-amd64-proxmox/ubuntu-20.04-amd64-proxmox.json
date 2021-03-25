@@ -23,7 +23,7 @@
           "{{user `ansible_verbosity`}}",
           "--extra-vars", "vm_default_user={{user `vm_default_user`}}",
           "--tags", "all,is_template",
-          "--skip-tags", "openbsd,alpine"
+          "--skip-tags", "openbsd,alpine,centos"
         ],
         "ansible_env_vars": [ "ANSIBLE_CONFIG=./playbook/ansible.cfg", "ANSIBLE_FORCE_COLOR=True" ]
       }

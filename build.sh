@@ -120,6 +120,13 @@ if [[ -f install.conf.j2 ]]; then
     [[ -f http/install.conf ]] || { echo "Customized install.conf file not found."; exit 1; }
 fi
 
+# Centos
+if [[ -f ks.cfg.j2 ]]; then
+    printf "\n=> Customizing ks.cfg\n"
+    j2 ks.cfg.j2 > http/ks.cfg
+    [[ -f http/ks.cfg ]] || { echo "Customized install.conf file not found."; exit 1; }
+fi
+
 vm_ver=$(git describe --tags)
 
 
