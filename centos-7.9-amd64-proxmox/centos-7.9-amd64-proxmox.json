@@ -1,14 +1,15 @@
 {
-    "description": "Build Alpine Linux 3 x86_64 Proxmox template",
+    "description": "Build Ubuntu 20.04 (focal) x86_64 Proxmox template",
     "variables": {
         "proxmox_url": "{{env `proxmox_url`}}",
         "proxmox_username": "root@pam",
         "proxmox_password": "{{env `proxmox_password`}}",
         "proxmox_host": "{{env `proxmox_host`}}",
         "iso_filename": "{{env `iso_filename`}}",
+        "ansible_verbosity": "{{env `ansible_verbosity`}}",
         "vm_id": "{{env `vm_id`}}",
-        "vm_name": "alpine3-tmpl",
-        "template_description": "Alpine Linux 3.11 x86_64 template built with packer ({{env `vm_ver`}}). Username: {{env `vm_default_user`}}",
+        "vm_name": "centos79-tmpl",
+        "template_description": "Centos 7.9 x86_64 template built with packer ({{env `vm_ver`}}). Username: {{env `vm_default_user`}}",
         "vm_default_user": "{{env `vm_default_user`}}",
         "vm_memory": "{{env `vm_memory`}}",
         "ssh_username": "root",
@@ -23,7 +24,7 @@
           "{{user `ansible_verbosity`}}",
           "--extra-vars", "vm_default_user={{user `vm_default_user`}}",
           "--tags", "all,is_template",
-          "--skip-tags", "debuntu,openbsd,centos"
+          "--skip-tags", "alpine,debuntu,openbsd"
         ],
         "ansible_env_vars": [ "ANSIBLE_CONFIG=./playbook/ansible.cfg", "ANSIBLE_FORCE_COLOR=True" ]
       }
@@ -47,7 +48,7 @@
             "network_adapters": [
               {
                 "model": "virtio",
-                "bridge": "vmbr1"
+                "bridge": "vmbr0"
               }
             ],
             "disks": [
@@ -62,38 +63,14 @@
             "ssh_username": "{{user `ssh_username`}}",
             "ssh_password": "{{user `ssh_password`}}",
             "ssh_timeout": "15m",
-            "iso_file": "local:iso/{{user `iso_filename`}}",
+            "iso_file": "VMTemplates:iso/{{user `iso_filename`}}",
             "unmount_iso": true,
             "boot_wait": "10s",
             "boot_command": [
-                "root<enter><wait>",
-                "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
-                "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",
-                "setup-alpine -f $PWD/answers<enter><wait5>",
-                "{{user `ssh_password`}}<enter><wait>",
-                "{{user `ssh_password`}}<enter><wait>",
-                "<wait10><wait5>",
-                "y<enter>",
-                "<wait10><wait10>",
-                "rc-service sshd stop <enter>",
-                "mount /dev/sda2 /mnt <enter>",
-                "mount /dev/ /mnt/dev/ --bind <enter>",
-                "mount -t proc none /mnt/proc <enter>",
-                "mount -o bind /sys /mnt/sys <enter>",
-                "chroot /mnt /bin/sh -l <enter><wait>",
-                "echo '@edgecommunity http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories <enter>",
-                "echo -e 'nameserver 1.1.1.1' > /etc/resolv.conf <enter>",
-                "apk update <enter><wait10>",
-                "apk add 'qemu-guest-agent@edgecommunity' 'python' <enter><wait>",
-                "echo -e GA_PATH=\"/dev/vport1p1\" >> /etc/conf.d/qemu-guest-agent <enter>",
-                "rc-update add qemu-guest-agent <enter>",
-                "echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config <enter>",
-                "exit <enter><wait>",
-                "umount /mnt/sys <enter><wait>",
-                "umount /mnt/proc <enter><wait>",
-                "umount /mnt/dev <enter><wait>",
-                "umount /mnt <enter>",
-                "reboot <enter>"
+              "<up><wait>",
+              "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg",
+              "<enter>",
+              "<wait>"
             ]
         }
     ],
