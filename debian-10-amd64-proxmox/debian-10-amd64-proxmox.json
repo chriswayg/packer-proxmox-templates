@@ -3,7 +3,7 @@
     "variables": {
         "ansible_verbosity": "{{env `ansible_verbosity`}}",
         "proxmox_url": "{{env `proxmox_url`}}",
-        "proxmox_username": "root@pam",
+        "proxmox_username": "{{env `proxmox_user`}}@pam",
         "proxmox_password": "{{env `proxmox_password`}}",
         "proxmox_host": "{{env `proxmox_host`}}",
         "iso_filename": "{{env `iso_filename`}}",
@@ -47,7 +47,7 @@
             "network_adapters": [
               {
                 "model": "virtio",
-                "bridge": "vmbr1"
+                "bridge": "{{user `proxmox_net_bridge`}}"
               }
             ],
             "disks": [
