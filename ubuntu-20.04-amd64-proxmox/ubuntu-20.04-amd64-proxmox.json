@@ -1,6 +1,7 @@
 {
     "description": "Build Ubuntu 20.04 (focal) x86_64 Proxmox template",
     "variables": {
+        "ansible_verbosity": "{{env `ansible_verbosity`}}",
         "proxmox_url": "{{env `proxmox_url`}}",
         "proxmox_username": "packer@pve",
         "proxmox_password": "{{env `proxmox_password`}}",
@@ -47,15 +48,15 @@
             "network_adapters": [
               {
                 "model": "virtio",
-                "bridge": "vmbr1"
+                "bridge": "vmbr0"
               }
             ],
             "disks": [
               {
                 "type": "scsi",
                 "disk_size": "8G",
-                "storage_pool": "local",
-                "storage_pool_type": "directory",
+                "storage_pool": "Thin",
+                "storage_pool_type": "lvm",
                 "format": "qcow2"
               }
             ],
