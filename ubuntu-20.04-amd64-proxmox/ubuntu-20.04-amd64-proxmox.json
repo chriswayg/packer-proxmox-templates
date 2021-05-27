@@ -3,7 +3,7 @@
     "variables": {
         "ansible_verbosity": "{{env `ansible_verbosity`}}",
         "proxmox_url": "{{env `proxmox_url`}}",
-        "proxmox_username": "{{env `proxmox_user`}}@pve",
+        "proxmox_username": "{{env `proxmox_user`}}",
         "proxmox_password": "{{env `proxmox_password`}}",
         "proxmox_host": "{{env `proxmox_host`}}",
         "proxmox_net_bridge": "{{env `proxmox_net_bridge`}}",

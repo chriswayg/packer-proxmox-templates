@@ -1,10 +1,14 @@
 {
     "description": "Build OpenBSD 6 x86_64 Proxmox template",
     "variables": {
+        "ansible_verbosity": "{{env `ansible_verbosity`}}",
         "proxmox_url": "{{env `proxmox_url`}}",
-        "proxmox_username": "root@pam",
+        "proxmox_username": "{{env `proxmox_user`}}",
         "proxmox_password": "{{env `proxmox_password`}}",
         "proxmox_host": "{{env `proxmox_host`}}",
+        "proxmox_net_bridge": "{{env `proxmox_net_bridge`}}",
+        "proxmox_storage_vm": "{{env `proxmox_storage_vm`}}",
+        "proxmox_storage_iso": "{{env `proxmox_storage_iso`}}",
         "iso_filename": "{{env `iso_filename`}}",
         "vm_id": "{{env `vm_id`}}",
         "vm_name": "openbsd6-tmpl",
@@ -13,7 +17,6 @@
         "vm_memory": "{{env `vm_memory`}}",
         "ssh_username": "root",
         "ssh_password": "{{env `ssh_password`}}",
-        "ansible_verbosity":"{{env `ansible_verbosity`}}"
     },
     "sensitive-variables": ["proxmox_password", "ssh_password" ],
     "provisioners": [
@@ -48,15 +51,15 @@
             "network_adapters": [
               {
                 "model": "virtio",
-                "bridge": "vmbr1"
+                "bridge": "{{user `proxmox_net_bridge`}}"
               }
             ],
             "disks": [
               {
                 "type": "scsi",
                 "disk_size": "8G",
-                "storage_pool": "local",
-                "storage_pool_type": "directory",
+                "storage_pool": "{{user `proxmox_storage_vm`}}",
+                "storage_pool_type": "lvm",
                 "format": "qcow2"
               }
             ],

@@ -37,6 +37,11 @@ function die_var_unset {
     exit 1
 }
 
+## check that prerequisites are installed
+[[ $(packer --version)  ]] || { echo "Please install 'Packer'"; exit 1; }
+[[ $(ansible --version)  ]] || { echo "Please install 'Ansible'"; exit 1; }
+[[ $(j2 --version)  ]] || { echo "Please install 'j2cli'"; exit 1; }
+
 ## check that data in build_conf is complete
 [[ -f $build_conf ]] || { echo "User variables file '$build_conf' not found."; exit 1; }
 source $build_conf
@@ -44,6 +49,10 @@ source $build_conf
 [[ -z "$vm_default_user" ]] && die_var_unset "vm_default_user"
 [[ -z "$vm_memory" ]] && die_var_unset "vm_memory"
 [[ -z "$proxmox_host" ]] && die_var_unset "proxmox_host"
+[[ -z "$proxmox_user" ]] && die_var_unset "proxmox_user"
+[[ -z "$proxmox_vm" ]] && die_var_unset "proxmox_vm"
+[[ -z "$proxmox_iso" ]] && die_var_unset "proxmox_iso"
+[[ -z "$proxmox_net_bridge" ]] && die_var_unset "proxmox_net_bridge"
 [[ -z "$default_vm_id" ]] && die_var_unset "default_vm_id"
 [[ -z "$iso_url" ]] && die_var_unset "iso_url"
 [[ -z "$iso_sha256_url" ]] && die_var_unset "iso_sha256_url"
@@ -62,10 +71,7 @@ template_name="${PWD##*/}.json"
 
 [[ -f $template_name ]] || { echo "Template (${template_name}) not found."; exit 1; }
 
-## check that prerequisites are installed
-[[ $(packer --version)  ]] || { echo "Please install 'Packer'"; exit 1; }
-[[ $(ansible --version)  ]] || { echo "Please install 'Ansible'"; exit 1; }
-[[ $(j2 --version)  ]] || { echo "Please install 'j2cli'"; exit 1; }
+
 
 ## If passwords are not set in env variable, prompt for them
 [[ -z "$proxmox_password" ]] && printf "\n" && read -s -p "Existing PROXMOX Login Password: " proxmox_password && printf "\n"
