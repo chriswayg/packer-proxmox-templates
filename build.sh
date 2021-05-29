@@ -46,8 +46,12 @@ function die_var_unset {
 [[ -f $build_conf ]] || { echo "User variables file '$build_conf' not found."; exit 1; }
 source $build_conf
 
+[[ -z "$vm_name" ]] && die_var_unset "vm_name"
 [[ -z "$vm_default_user" ]] && die_var_unset "vm_default_user"
 [[ -z "$vm_memory" ]] && die_var_unset "vm_memory"
+[[ -z "$vm_cores" ]] && die_var_unset "vm_cores"
+[[ -z "$vm_sockets" ]] && die_var_unset "vm_sockets"
+[[ -z "$ssh_username" ]] && die_var_unset "ssh_username"
 [[ -z "$proxmox_host" ]] && die_var_unset "proxmox_host"
 [[ -z "$proxmox_user" ]] && die_var_unset "proxmox_user"
 [[ -z "$proxmox_storage_vm" ]] && die_var_unset "proxmox_storage_vm"
